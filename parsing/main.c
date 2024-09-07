@@ -18,7 +18,6 @@ void print_queue(queue **q)
     }
 }
 
-
 void do_something(int x , int y , char **s,queue **queue)
 {
      if(s[x][y] && s[x][y] == '0')
@@ -38,14 +37,9 @@ void do_something(int x , int y , char **s,queue **queue)
         {
             if(check > 0)
                 i=check;
-            if(s[i][j] != '1')
-            {
-                printf("%d , %d  ====> %c \n",i , j , s[i][j]);
-                return 1;
-            }
+            if(s[i][j] != '1' && s[i][j] != ' ' )
+                 return 1; 
         }
-
-       
         if(s[i][j -1] && s[i][j]==' ' && s[i][j-1] == '0')
             return 1;
          if (s[i][j+1] && s[i][j+1] == '0'  && s[i][j]==' ' )
@@ -57,13 +51,9 @@ int check_map2(char **s)
 {
 int i = 0 , j = 0;
 int check =0;
-
     
     while (s[i])
     {
-        s[i] = ft_strtrim(s[i]," ");
-        //   if(s[i][j] && (s[i][j] != '1'))
-        //         return 1;
         if(!(s[i+1]))
             check=i;
     
@@ -74,14 +64,11 @@ int check =0;
                 j++;
         }
 
-
       j = 0;
       i++;  
     }
     return 0;
-    
 }
-
 
 void check_map(char **s,player p)
 {
@@ -90,7 +77,7 @@ void check_map(char **s,player p)
     int y = p.y;
     int i,j = 0;
     queue *queue = NULL;
-    // int count = 0;
+    
     
     while (s[x][y])
     {
@@ -110,30 +97,11 @@ void check_map(char **s,player p)
         {
             x = queue->x;
             y = queue->y;
-            // count++;
         }
         else
             break;
     } 
-    //    i = 0, j = 0;
-
-	// 	while (s[i])
-	// 	{
-            
-    //         while (s[i][j])
-    //         {
-    //             if(i == p.x && j == p.y)
-    //             {
-    //                 printf("k");
-    //             }
-    //             else
-    //                 printf("%c",s[i][j]);
-    //             j++;
-    //         }
-    //         printf("\n");
-    //             j = 0;
-    //         i++;
-	// 	}
+    
     if(check_map2(s))
     {
             printf("mrid fkrk ollh");
@@ -157,13 +125,6 @@ int main()
      s = map_to_s(fd);
      find_direction(&player,s);
      check_map(s,player);
-    //  printf("%c",s[player.x][player.y]);
-    //  while (*s)
-
-    //  {
-    //     printf("%c",*s);
-    //     s++;
-    //  }
 
      return 0;
 }
