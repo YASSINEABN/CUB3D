@@ -1,7 +1,6 @@
 
 CC := cc
 
-
 NAME := cub3D
 
 SRC = main.c helper_functions.c quee_functions.c

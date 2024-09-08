@@ -24,6 +24,12 @@ typedef struct queue {
     struct queue *next;
 } queue;
 
+typedef struct my_map{
+    char **texture;
+    char **floor;
+    char **map;
+    int tab[5];
+}my_map;
 // typedef struct cub3d
 // {
 //     char **flor;
