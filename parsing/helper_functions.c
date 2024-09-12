@@ -61,6 +61,7 @@ char **map_to_s(int fd)
 {
     char *s = ft_strdup("");
     char *line;
+	
     while ((line = get_next_line(fd)))
     {
         s = ft_strjoin(s,line);
