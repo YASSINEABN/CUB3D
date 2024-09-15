@@ -79,17 +79,30 @@ int check =0;
 
 void add_nodee(char *name , list **listt)
 {
-  
-    list *test = malloc(sizeof(list));
-    test->name = ft_strdup(name);
+  if(!(*listt))
+  {
+        list *test = malloc(sizeof(list));
+    test->name = name;
     test->next=NULL;
     test->value =0;
     (*listt)=test;
+  }
+  else 
+    {
+        list *head = *listt;
+        while (head->next)
+        {
+            head = head->next;
+        }
+        list *test = malloc(sizeof(list));
+    test->name = name;
+    test->next=NULL;
+    test->value =0;
+    head->next=test;
+    }
 }
-void add_node_list(char *name  , list **listt)
+void add_node_list(char *name  , list **listt, int *countt)
 {
-    if(!(*listt))
-        add_nodee(name,listt);
     list *head = *listt;
 
     while ((head))
@@ -97,21 +110,13 @@ void add_node_list(char *name  , list **listt)
         if(!ft_strncmp((head)->name,name,ft_strlen(name)))
         {
             (head)->value++;
+            (*countt)++;
             return ;
         }
         head = head->next;
     }
-    // exit(1);
-    head = *listt;
-    list *test = malloc(sizeof(list));
-    test->name = ft_strdup(name);
-    test->next=NULL;
-    test->value = 0;
-    while (head->next)
-    {
-        head = head->next;
-    }
-    head->next = test;
+    printf("error");
+    exit(1);
  
 }
 
@@ -165,23 +170,19 @@ void check_map(char **s,player p)
         
     }
 
-void check_texture(char *s,my_map *map , int i, list **listt)
+void check_texture(char *s,my_map *map , list **listt , int *countt)
 {
     char **ss = ft_split(s,' ');
 
-    if(count(ss) > 2)
-        {
-            printf("khrg T9wd1 \n");
-            exit(1);
-        }
-    if(open(ss[1],O_RDONLY) == -1)
+    if(count(ss) == 2)
     {
-         printf(" tq glna lik khrg T9wd \n");
-            exit(1);
+        if(open(ss[1],O_RDONLY) == -1)
+        {
+            printf(" tq glna lik khrg T9wd \n");
+                exit(1);
+        }
+        add_node_list(ss[0],listt, countt);
     }
-    map->texture[i] = ft_strtrim(s," ");
-
-    add_node_list(ft_substr(map->texture[i],0,2),listt);
 }
 
 int check_ss(char *line)
@@ -200,10 +201,12 @@ int check_ss(char *line)
     return 0;
 }
 
-void check_floor(char *s , my_map *map , list **listt)
+void check_floor(char *s , my_map *map , list **listt , int *countt)
 {
+
     s = ft_strtrim(s," ");
     char *sss = s;
+  
     if(!((s[0] == 'C' || s[0] == 'F') && s[1] == ' '))
     {
         printf("wa sahbi ");
@@ -233,55 +236,66 @@ void check_floor(char *s , my_map *map , list **listt)
         }
         i++;
     }
-    char *str  = ft_strdup((char *) sss[0]); 
-       add_node_list((str,listt); 
+    char arr[1];
+    arr[0] = sss[0];
+    arr[1] = 0;
+       add_node_list(arr,listt, countt); 
 
 }
 
-void check_s(char **s, my_map *map, list **listt)
+
+
+char **check_s(char **s, my_map *map, list **listt,  int *count )
 {
     int i = 0;
-   
-    char *k;
-    int count = -1;
-    
+    char **k;
     
     while (s[i])
     {
-            if(k = ft_substr(s[i],0,2))
+        
+            if(k = ft_split(s[i],' '))
             {
-                if(!ft_strncmp(k,"NO",2) ||!ft_strncmp(k,"SO",2) 
-                    || !ft_strncmp(k,"WE",2) || !ft_strncmp(k,"EA",2) )
-                    check_texture(s[i],map ,++count,listt);
-                else 
-                check_floor(s[i],map,listt);
+            
+                    if((!ft_strncmp(k[0],"NO",2)) || (!ft_strncmp(k[0],"SO",2)) 
+                        || !ft_strncmp(k[0],"WE",2) || !ft_strncmp(k[0],"EA",2))
+                             check_texture(s[i],map ,listt , count);
+                    else 
+                    check_floor(s[i],map,listt , count);
             }
+           
             i++;
+
+            if(*count == 6)
+                break;
     } 
+    printf("%d",i);
+    exit(1);
+    return s+i;
 }
+
 void fill_listt(list **listt)
 {
     (*listt) =NULL;
-    add_node_list("SO",listt);
-    add_node_list("WE",listt);
-    add_node_list("EA",listt);
-    add_node_list("NO",listt);
-    add_node_list("N",listt);
-    add_node_list("C",listt);
-        
-    
+    add_nodee("SO",listt);
+    add_nodee("WE",listt);
+    add_nodee("EA",listt);
+    add_nodee("NO",listt);
+    add_nodee("F",listt);
+    add_nodee("C",listt);
 }
 
-int duplicate(list **listt)
+int duplicate(list *listt)
 {
-    while (*listt)
+    while (listt)
     {
-        if((*listt)->value == 0 || (*listt)->value > 1)
+        if((listt)->value == 0 || (listt)->value > 1)
             return 1;
-        (*listt) = (*listt)->next;
+      
+        (listt) = (listt)->next;
     }
     return 0;
 }
+
 int ft_listsize(list *lst)
 {
     int i = 0;
@@ -293,25 +307,30 @@ int ft_listsize(list *lst)
     return i;
 
 }
-void parse_map(int fd , my_map *map)
+
+char ** parse_map(int fd , my_map *map)
 {
+    int count = 0;
     list *listt = malloc(sizeof(list));
     fill_listt(&listt);
      char *s = ft_strdup("");
-     char *t = ft_strdup("");
-    char *line;
+     char *line;
+  
+
     while ((line = get_next_line(fd)))
-        s = ft_strjoin(s,line);
+         s = ft_strjoin(s,line);
+    
+   char **ss =  check_s(ft_split(s,'\n'),map,&listt , &count);
 
-    check_s(ft_split(s,'\n'),map,&listt);
-
-
-    printf("%d",ft_listsize(listt));
-    // if((ft_lstsize(listt) != 6) || duplicate(listt))
-    // {
-    //     printf("honaka mochkil");
-    //     exit(1);
-    // } 
+// printf("%d",count);
+// exit(1);
+      
+    if(duplicate(listt) || count != 6)
+    {
+        printf("honaka mochkil");
+        exit(1);
+    } 
+    return ss;
     
 }
 
@@ -329,7 +348,8 @@ int main()
     if(!fd)
         return -1;
 
-    parse_map(fd , &map);
+   s  = parse_map(fd , &map);
+    
 
     // while (map.texture[i])
     // {
@@ -339,8 +359,15 @@ int main()
     
     // exit(1);
     
-    //  s = map_to_s(fd);
-    //  find_direction(&player,s);
-    //  check_map(s,player);
+    //    map_to_s(fd);
+
+    //  while (*s)
+    //  {
+    //     printf("%s \n",*s);
+    //     s++;
+    //  }
+     
+     find_direction(&player,s);
+      check_map(s,player);
      return 0;
 }

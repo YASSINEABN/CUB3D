@@ -57,21 +57,20 @@ void find_direction(player *player,char **mini_map)
 	}
 }
 
-char **map_to_s(int fd)
-{
-    char *s = ft_strdup("");
-    char *line;
+// void map_to_s(int fd )
+// {
+//     char *s = ft_strdup("");
+//     char *line;
 	
-    while ((line = get_next_line(fd)))
-    {
-        s = ft_strjoin(s,line);
-		if(line[0] == '\n')
-		{
-			printf("ayh zab lakhdmt ana ");
-			exit(1);
-		}
-    }
+//     while ((line = get_next_line(fd)))
+//     {
+//         s = ft_strjoin(s,line);
+// 		if(line[0] == '\n')
+// 		{
+// 			printf("ayh zab lakhdmt ana ");
+// 			exit(1);
+// 		}
+//     }
 
-    return ft_split(s,'\n');
-}
+// }
 
