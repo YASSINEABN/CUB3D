@@ -309,7 +309,7 @@ int ft_listsize(list *lst)
 
 }
 
-char ** parse_map(int fd , my_map *map ,int *count , char **str)
+void parse_map(int fd , my_map *map ,int *count , char **str)
 {
 
     list *listt = malloc(sizeof(list));
@@ -321,8 +321,11 @@ char ** parse_map(int fd , my_map *map ,int *count , char **str)
     while ((line = get_next_line(fd)))
          *str = ft_strjoin(*str,line);
     
+  
+
    char **ss =  check_s(ft_split(*str,'\n'),map,&listt , count);
 
+  exit(1);
 // printf("%d",count);
 // exit(1);
       
@@ -331,7 +334,7 @@ char ** parse_map(int fd , my_map *map ,int *count , char **str)
         printf("honaka mochkil");
         exit(1);
     } 
-    return ss;
+  
 }
 
 int main()
@@ -339,8 +342,8 @@ int main()
 
   my_map map;
   map.texture = malloc(sizeof(map) *4);
-    char **s;
-    char *str;
+    char **s = NULL;
+    char *str = NULL;
     player player;
     int count = 0;
    
@@ -350,8 +353,11 @@ int main()
     if(!fd)
         return -1;
 
-   s  = parse_map(fd , &map , &count , &str);
+    parse_map(fd , &map , &count , &str);
 
+    exit(1);
+   
+    
     // while (map.texture[i])
     // {
     //     printf("%s\n",map.texture[i]);
@@ -360,13 +366,32 @@ int main()
     
     // exit(1);
 
-         map_to_s(str, count);
+     s = map_to_s(str, count);
+
+        i = 0;
+       while (s[i])
+       {
+        printf("%s",s[i]);
+        i++;
+        /* code */
+       }
+       
 
     //  while (*s)
     //  {
     //     printf("%s \n",*s);
     //     s++;
     //  }
+    // if()
+    // while (*s)
+    // {
+    //    printf("%s",*s);
+    //    s++;
+    // }
+    // exit(1);
+   
+   
+    
      
     //  find_direction(&player,s);
     //   check_map(s,player);
