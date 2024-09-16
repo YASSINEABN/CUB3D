@@ -60,7 +60,6 @@ void find_direction(player *player,char **mini_map)
 char ** map_to_s(char *s , int count )
 {
 
-exit(1);
     char *line;
 	
 	int check = 0;
@@ -82,24 +81,33 @@ exit(1);
 		s++;
 	}
 
-
-	
-
 	 s = ft_strtrim(s , "\n");
 	 while (*s == '\n' || *s == ' ')
 		s++;
 
-	exit(1);
-	char **str = ft_split(s,'\n');
+	int i = -1;
+check = 0;
 
-	while (*str)
+	while (s[++i])
 	{
-		printf("%s",*str);
-		str++;
+		if(s[i] == '\n' && check == 0)
+			check =1 ;
+			else if(s[i] == '\n' && check == 1)
+				{
+					printf("error");
+					exit(1);
+				}
+		else 
+			check = 0;
+	
 	}
 	
+
+	char **str = ft_split(s,'\n');
+
+	return str;
 	
-	exit(1);
+	
 	
 	 
 

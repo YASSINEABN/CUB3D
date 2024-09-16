@@ -245,16 +245,21 @@ void check_floor(char *s , my_map *map , list **listt , int *countt)
 
 
 
-char **check_s(char **s, my_map *map, list **listt,  int *count )
+void check_s(char **s, my_map *map, list **listt,  int *count )
 {
+   
     int i = -1;
     int j = 0;
-    char **k;
+    char **k = NULL;
+
     
     while (s[++i])
     {
+        
+        
             if(k = ft_split(s[i],' '))
             {
+                
                 if(!k[0])
                     continue;              
                     if((!ft_strncmp(k[0],"NO",2)) || (!ft_strncmp(k[0],"SO",2)) 
@@ -264,14 +269,12 @@ char **check_s(char **s, my_map *map, list **listt,  int *count )
                     check_floor(s[i],map,listt , count);
 
             }
-    
+            
             if(*count == 6)
                 break;
     } 
 
-    //  printf("%d   %d",j, i);
-    //  exit(1);
-    return s;
+    
 }
 
 void fill_listt(list **listt)
@@ -319,13 +322,13 @@ void parse_map(int fd , my_map *map ,int *count , char **str)
   
 
     while ((line = get_next_line(fd)))
-         *str = ft_strjoin(*str,line);
+         s = ft_strjoin(s,line);
     
+        *str =s;
+
+    check_s(ft_split(s,'\n'),map,&listt , count);
+
   
-
-   char **ss =  check_s(ft_split(*str,'\n'),map,&listt , count);
-
-  exit(1);
 // printf("%d",count);
 // exit(1);
       
@@ -355,7 +358,7 @@ int main()
 
     parse_map(fd , &map , &count , &str);
 
-    exit(1);
+   
    
     
     // while (map.texture[i])
@@ -366,15 +369,10 @@ int main()
     
     // exit(1);
 
+
      s = map_to_s(str, count);
 
-        i = 0;
-       while (s[i])
-       {
-        printf("%s",s[i]);
-        i++;
-        /* code */
-       }
+      
        
 
     //  while (*s)
