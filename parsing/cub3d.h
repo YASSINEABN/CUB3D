@@ -46,7 +46,7 @@ typedef struct list
 // };
 
 char *get_next_line(int fd);
-char **map_to_s(int fd);
+void map_to_s(char *s , int count );
 void find_direction(player *player , char **map);
 queue *add_node(int x,int y, int check);
 void add_quee(queue **queu , int x, int y , int check);

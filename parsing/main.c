@@ -247,30 +247,31 @@ void check_floor(char *s , my_map *map , list **listt , int *countt)
 
 char **check_s(char **s, my_map *map, list **listt,  int *count )
 {
-    int i = 0;
+    int i = -1;
+    int j = 0;
     char **k;
     
-    while (s[i])
+    while (s[++i])
     {
-        
             if(k = ft_split(s[i],' '))
             {
-            
+                if(!k[0])
+                    continue;              
                     if((!ft_strncmp(k[0],"NO",2)) || (!ft_strncmp(k[0],"SO",2)) 
                         || !ft_strncmp(k[0],"WE",2) || !ft_strncmp(k[0],"EA",2))
                              check_texture(s[i],map ,listt , count);
                     else 
                     check_floor(s[i],map,listt , count);
-            }
-           
-            i++;
 
+            }
+    
             if(*count == 6)
                 break;
     } 
-    printf("%d",i);
-    exit(1);
-    return s+i;
+
+    //  printf("%d   %d",j, i);
+    //  exit(1);
+    return s;
 }
 
 void fill_listt(list **listt)
@@ -308,9 +309,9 @@ int ft_listsize(list *lst)
 
 }
 
-char ** parse_map(int fd , my_map *map)
+char ** parse_map(int fd , my_map *map ,int *count , char **str)
 {
-    int count = 0;
+
     list *listt = malloc(sizeof(list));
     fill_listt(&listt);
      char *s = ft_strdup("");
@@ -318,20 +319,19 @@ char ** parse_map(int fd , my_map *map)
   
 
     while ((line = get_next_line(fd)))
-         s = ft_strjoin(s,line);
+         *str = ft_strjoin(*str,line);
     
-   char **ss =  check_s(ft_split(s,'\n'),map,&listt , &count);
+   char **ss =  check_s(ft_split(*str,'\n'),map,&listt , count);
 
 // printf("%d",count);
 // exit(1);
       
-    if(duplicate(listt) || count != 6)
+    if(duplicate(listt) || *count != 6)
     {
         printf("honaka mochkil");
         exit(1);
     } 
     return ss;
-    
 }
 
 int main()
@@ -340,7 +340,9 @@ int main()
   my_map map;
   map.texture = malloc(sizeof(map) *4);
     char **s;
+    char *str;
     player player;
+    int count = 0;
    
     int i = 0;
     
@@ -348,8 +350,7 @@ int main()
     if(!fd)
         return -1;
 
-   s  = parse_map(fd , &map);
-    
+   s  = parse_map(fd , &map , &count , &str);
 
     // while (map.texture[i])
     // {
@@ -358,8 +359,8 @@ int main()
     // }
     
     // exit(1);
-    
-    //    map_to_s(fd);
+
+         map_to_s(str, count);
 
     //  while (*s)
     //  {
@@ -367,7 +368,7 @@ int main()
     //     s++;
     //  }
      
-     find_direction(&player,s);
-      check_map(s,player);
+    //  find_direction(&player,s);
+    //   check_map(s,player);
      return 0;
 }
