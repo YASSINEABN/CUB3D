@@ -1,6 +1,8 @@
 #include "cub3d.h"
 int check =0;
 
+
+
 int check_xy(int x , int y , char **s)
 {
     if (( s[x-1][y] == ' ') || (s[x][y-1] == ' ') || 
@@ -170,9 +172,10 @@ void check_map(char **s,player p)
         
     }
 
-void check_texture(char *s,my_map *map , list **listt , int *countt)
+void check_texture(char *s,my_map *map , list **list , int *countt,listt **nodee)
 {
     char **ss = ft_split(s,' ');
+      mylist(&ss,nodee);
 
     if(count(ss) == 2)
     {
@@ -181,7 +184,7 @@ void check_texture(char *s,my_map *map , list **listt , int *countt)
             printf(" tq glna lik khrg T9wd \n");
                 exit(1);
         }
-        add_node_list(ss[0],listt, countt);
+        add_node_list(ss[0],list, countt);
     }
 }
 
@@ -245,7 +248,7 @@ void check_floor(char *s , my_map *map , list **listt , int *countt)
 
 
 
-void check_s(char **s, my_map *map, list **listt,  int *count )
+void check_s(char **s, my_map *map, list **list,  int *count , listt **nodee)
 {
    
     int i = -1;
@@ -256,17 +259,19 @@ void check_s(char **s, my_map *map, list **listt,  int *count )
     while (s[++i])
     {
         
-        
-            if(k = ft_split(s[i],' '))
+        k = ft_split(s[i],' ');
+       
+          mylist(&k,nodee);
+
+            if(k)
             {
-                
                 if(!k[0])
                     continue;              
                     if((!ft_strncmp(k[0],"NO",2)) || (!ft_strncmp(k[0],"SO",2)) 
                         || !ft_strncmp(k[0],"WE",2) || !ft_strncmp(k[0],"EA",2))
-                             check_texture(s[i],map ,listt , count);
+                             check_texture(s[i],map ,list , count,nodee);
                     else 
-                    check_floor(s[i],map,listt , count);
+                    check_floor(s[i],map,list , count);
 
             }
             
@@ -312,21 +317,28 @@ int ft_listsize(list *lst)
 
 }
 
-void parse_map(int fd , my_map *map ,int *count , char **str)
+void parse_map(int fd , my_map *map ,int *count , char **str , listt **node)
 {
 
     list *listt = malloc(sizeof(list));
+    mylist(&listt,node);
     fill_listt(&listt);
      char *s = ft_strdup("");
+      mylist(&s,node);
      char *line;
   
 
     while ((line = get_next_line(fd)))
+    {
          s = ft_strjoin(s,line);
+         mylist(&s,node);
+    }
     
         *str =s;
+    char **ss = ft_split(s,'\n');
+     mylist(&ss,node);
 
-    check_s(ft_split(s,'\n'),map,&listt , count);
+    check_s(ss,map,&listt , count,node);
 
   
 // printf("%d",count);
@@ -337,7 +349,21 @@ void parse_map(int fd , my_map *map ,int *count , char **str)
         printf("honaka mochkil");
         exit(1);
     } 
-  
+}
+
+void	garbage_collector(listt **lst, void (*del)(void *))
+{
+	listt	*temp;
+
+	if (!lst)
+		return ;
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		free((*lst)->node);
+        free(*lst);
+		*lst = temp;
+	}
 }
 
 int main()
@@ -345,6 +371,11 @@ int main()
 
   my_map map;
   map.texture = malloc(sizeof(map) *4);
+    listt *list=NULL;
+
+
+  
+
     char **s = NULL;
     char *str = NULL;
     player player;
@@ -356,42 +387,13 @@ int main()
     if(!fd)
         return -1;
 
-    parse_map(fd , &map , &count , &str);
-
-   
-   
+    parse_map(fd , &map , &count , &str , &list);
     
-    // while (map.texture[i])
-    // {
-    //     printf("%s\n",map.texture[i]);
-    //     i++;
-    // }
-    
-    // exit(1);
-
-
      s = map_to_s(str, count);
-
-      
+      find_direction(&player,s);
+       check_map(s,player);
+   
        
-
-    //  while (*s)
-    //  {
-    //     printf("%s \n",*s);
-    //     s++;
-    //  }
-    // if()
-    // while (*s)
-    // {
-    //    printf("%s",*s);
-    //    s++;
-    // }
-    // exit(1);
-   
-   
-    
-     
-    //  find_direction(&player,s);
-    //   check_map(s,player);
      return 0;
 }
+

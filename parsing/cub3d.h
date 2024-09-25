@@ -38,6 +38,12 @@ typedef struct list
     struct list *next;
 }list;
 
+typedef struct listt 
+{
+    void *node;
+    struct listt *next;
+}listt;
+
 // typedef struct cub3d
 // {
 //     char **flor;
@@ -51,5 +57,6 @@ queue *add_node(int x,int y, int check);
 void add_quee(queue **queu , int x, int y , int check);
 void dequee(queue **queu );
 char ** map_to_s(char *s , int count );
+void mylist(void *node, listt **nodee);
 
 #endif

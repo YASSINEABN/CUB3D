@@ -92,12 +92,15 @@ check = 0;
 	{
 		if(s[i] == '\n' && check == 0)
 			check =1 ;
-			else if(s[i] == '\n' && check == 1)
+
+			else if( ((s[i] == '\n') && check == 1))
 				{
 					printf("error");
 					exit(1);
 				}
-		else 
+			else if(s[i] == ' ')
+				continue;
+			else 
 			check = 0;
 	
 	}
@@ -134,3 +137,24 @@ check = 0;
 	
 }
 
+void mylist(void *node, listt **nodee)
+{
+	listt *nod = malloc(sizeof(listt));
+	
+	nod->node =node;
+	nod->next = NULL;
+	
+	if(!*nodee)
+		*nodee = nod;
+	else 
+	{
+		listt *head = *nodee;
+		while (head->next)
+		{
+			head = head->next;
+		}
+			
+		head->next = nod;
+	}
+	
+}
