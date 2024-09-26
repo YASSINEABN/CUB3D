@@ -20,18 +20,18 @@ void print_queue(queue **q)
     }
 }
 
-void do_something(int x , int y , char **s,queue **queue)
+void do_something(int x , int y , char **s,queue **queue , listt **node)
 {
      if(s[x][y] && s[x][y] == '0')
-        add_quee(queue,x,y,1);
+        add_quee(queue,x,y,1,node);
     if(s[x-1][y] && s[x-1][y] == '0')
-        add_quee(queue,x-1,y,0);
+        add_quee(queue,x-1,y,0,node);
       if(s[x][y+1] && s[x][y+1] == '0')
-        add_quee(queue,x,y+1,0);
+        add_quee(queue,x,y+1,0,node);
     if(s[x+1][y] && s[x+1][y] == '0')
-        add_quee(queue,x+1,y,0);
+        add_quee(queue,x+1,y,0,node);
      if(s[x][y+1] && s[x][y-1] == '0')
-        add_quee(queue,x,y-1,0);
+        add_quee(queue,x,y-1,0,node);
 }
     int simple_check(int i , int j , char **s , int check)
     {
@@ -79,30 +79,33 @@ int check =0;
     return 0;
 }
 
-void add_nodee(char *name , list **listt)
+void add_nodee(char *name , list **listo , listt **liste)
 {
-  if(!(*listt))
+  if(!(*listo))
   {
         list *test = malloc(sizeof(list));
+        mylist(test,liste);
     test->name = name;
     test->next=NULL;
     test->value =0;
-    (*listt)=test;
+    (*listo)=test;
   }
   else 
     {
-        list *head = *listt;
+        list *head = *listo;
         while (head->next)
         {
             head = head->next;
         }
         list *test = malloc(sizeof(list));
+         mylist(test,liste);
     test->name = name;
     test->next=NULL;
     test->value =0;
     head->next=test;
     }
 }
+
 void add_node_list(char *name  , list **listt, int *countt)
 {
     list *head = *listt;
@@ -122,14 +125,13 @@ void add_node_list(char *name  , list **listt, int *countt)
  
 }
 
-void check_map(char **s,player p)
+void check_map(char **s,player p ,listt **node)
 {
     int x = p.x;
     int y = p.y;
     int i,j = 0;
     queue *queue = NULL;
-    
-    
+  
     while (s[x][y])
     {
        
@@ -139,7 +141,7 @@ void check_map(char **s,player p)
             exit(1);
        }
        
-       do_something(x , y ,s,&queue);
+       do_something(x , y ,s,&queue,node);
        dequee(&queue);
         
        s[x][y] = 'V';
@@ -175,7 +177,8 @@ void check_map(char **s,player p)
 void check_texture(char *s,my_map *map , list **list , int *countt,listt **nodee)
 {
     char **ss = ft_split(s,' ');
-      mylist(&ss,nodee);
+    add_to_listt(ss,nodee);
+      mylist(ss,nodee);
 
     if(count(ss) == 2)
     {
@@ -186,11 +189,13 @@ void check_texture(char *s,my_map *map , list **list , int *countt,listt **nodee
         }
         add_node_list(ss[0],list, countt);
     }
+   
 }
 
-int check_ss(char *line)
+int check_ss(char *line , listt **node)
 {
     line = ft_strtrim(line , " ");
+    mylist(line,node);
     int check = 0;
     int i = 0;
     while (*line)
@@ -204,11 +209,15 @@ int check_ss(char *line)
     return 0;
 }
 
-void check_floor(char *s , my_map *map , list **listt , int *countt)
+void check_floor(char *s , my_map *map , list **listo , int *countt , listt **node)
 {
 
+ 
     s = ft_strtrim(s," ");
+    mylist(s,node);
     char *sss = s;
+     
+
   
     if(!((s[0] == 'C' || s[0] == 'F') && s[1] == ' '))
     {
@@ -217,7 +226,10 @@ void check_floor(char *s , my_map *map , list **listt , int *countt)
     }
     s++;
     s = ft_strtrim(s," ");
+    mylist(s,node);
     char **ss = ft_split(s,',');
+    add_to_listt(ss,node);
+    mylist(ss,node);
     if(count(ss) != 3  || s[ft_strlen(s)-1] == ',')
      {
         printf("walhmar  ");
@@ -225,9 +237,10 @@ void check_floor(char *s , my_map *map , list **listt , int *countt)
     }
     int i = 0;
     
+    
     while (ss[i])
     {
-        if(check_ss(ss[i]))
+        if(check_ss(ss[i],node))
         {
             printf("cc cava ");
             exit(1);
@@ -239,10 +252,12 @@ void check_floor(char *s , my_map *map , list **listt , int *countt)
         }
         i++;
     }
+
     char arr[1];
     arr[0] = sss[0];
     arr[1] = 0;
-       add_node_list(arr,listt, countt); 
+      
+       add_node_list(arr,listo, countt); 
 
 }
 
@@ -255,13 +270,13 @@ void check_s(char **s, my_map *map, list **list,  int *count , listt **nodee)
     int j = 0;
     char **k = NULL;
 
-    
+ 
     while (s[++i])
     {
         
         k = ft_split(s[i],' ');
-       
-          mylist(&k,nodee);
+        add_to_listt(k,nodee);
+         mylist(k,nodee);
 
             if(k)
             {
@@ -271,7 +286,7 @@ void check_s(char **s, my_map *map, list **list,  int *count , listt **nodee)
                         || !ft_strncmp(k[0],"WE",2) || !ft_strncmp(k[0],"EA",2))
                              check_texture(s[i],map ,list , count,nodee);
                     else 
-                    check_floor(s[i],map,list , count);
+                    check_floor(s[i],map,list , count,nodee);
 
             }
             
@@ -282,15 +297,15 @@ void check_s(char **s, my_map *map, list **list,  int *count , listt **nodee)
     
 }
 
-void fill_listt(list **listt)
+void fill_listt(list **listo , listt **liste)
 {
-    (*listt) =NULL;
-    add_nodee("SO",listt);
-    add_nodee("WE",listt);
-    add_nodee("EA",listt);
-    add_nodee("NO",listt);
-    add_nodee("F",listt);
-    add_nodee("C",listt);
+    (*listo) = NULL;
+    add_nodee("SO",listo,liste);
+    add_nodee("WE",listo,liste);
+    add_nodee("EA",listo,liste);
+    add_nodee("NO",listo,liste);
+    add_nodee("F",listo,liste);
+    add_nodee("C",listo,liste);
 }
 
 int duplicate(list *listt)
@@ -317,33 +332,35 @@ int ft_listsize(list *lst)
 
 }
 
+
+
 void parse_map(int fd , my_map *map ,int *count , char **str , listt **node)
 {
-
+   
     list *listt = malloc(sizeof(list));
-    mylist(&listt,node);
-    fill_listt(&listt);
+    mylist(listt,node);
+    fill_listt(&listt ,node);
+
      char *s = ft_strdup("");
-      mylist(&s,node);
+    mylist(s,node);
+
      char *line;
   
 
-    while ((line = get_next_line(fd)))
+    while ((line = get_next_line(fd)) )
     {
+        mylist(line, node);
          s = ft_strjoin(s,line);
-         mylist(&s,node);
+         mylist(s,node);
     }
-    
+
         *str =s;
     char **ss = ft_split(s,'\n');
-     mylist(&ss,node);
-
+     mylist(ss,node);
+     add_to_listt(ss,node);
+    
     check_s(ss,map,&listt , count,node);
 
-  
-// printf("%d",count);
-// exit(1);
-      
     if(duplicate(listt) || *count != 6)
     {
         printf("honaka mochkil");
@@ -351,31 +368,16 @@ void parse_map(int fd , my_map *map ,int *count , char **str , listt **node)
     } 
 }
 
-void	garbage_collector(listt **lst, void (*del)(void *))
-{
-	listt	*temp;
-
-	if (!lst)
-		return ;
-	while (*lst)
-	{
-		temp = (*lst)->next;
-		free((*lst)->node);
-        free(*lst);
-		*lst = temp;
-	}
-}
 
 int main()
 {
+ listt *list=NULL;
 
   my_map map;
   map.texture = malloc(sizeof(map) *4);
-    listt *list=NULL;
+  mylist(map.texture,&list);
 
-
-  
-
+   
     char **s = NULL;
     char *str = NULL;
     player player;
@@ -388,12 +390,11 @@ int main()
         return -1;
 
     parse_map(fd , &map , &count , &str , &list);
-    
-     s = map_to_s(str, count);
-      find_direction(&player,s);
-       check_map(s,player);
-   
-       
+ 
+      s = map_to_s(str, count,&list);
+      find_direction(&player,s,&list);
+       check_map(s,player,&list);
+       garbage_collector(&list,free);
      return 0;
 }
 

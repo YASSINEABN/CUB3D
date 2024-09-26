@@ -52,11 +52,15 @@ typedef struct listt
 // };
 
 char *get_next_line(int fd);
-void find_direction(player *player , char **map);
-queue *add_node(int x,int y, int check);
-void add_quee(queue **queu , int x, int y , int check);
+void find_direction(player *player , char **map,listt **node);
+queue *add_node(int x,int y, int check,listt **node);
+void add_quee(queue **queu , int x, int y , int check,listt **node);
 void dequee(queue **queu );
-char ** map_to_s(char *s , int count );
+char ** map_to_s(char *s , int count ,listt **node);
 void mylist(void *node, listt **nodee);
+void	garbage_collector(listt **lst, void (*del)(void *));
+// void	garbage_collector2(list **lst, void (*del)(void *));
+void add_to_listt(char **ss,listt **node);
+
 
 #endif
