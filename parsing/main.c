@@ -56,6 +56,7 @@ void do_something(int x , int y , char **s,queue **queue , listt **node)
         return 0;
     }
 
+// to do
 int check_map2(char **s)
 {
 int i = 0 , j = 0;
@@ -79,6 +80,7 @@ int check =0;
     return 0;
 }
 
+// to do
 void add_nodee(char *name , list **listo , listt **liste)
 {
   if(!(*listo))
@@ -125,6 +127,7 @@ void add_node_list(char *name  , list **listt, int *countt)
  
 }
 
+// to do
 void check_map(char **s,player p ,listt **node)
 {
     int x = p.x;
@@ -184,12 +187,11 @@ void check_texture(char *s,my_map *map , list **list , int *countt,listt **nodee
     {
         if(open(ss[1],O_RDONLY) == -1)
         {
-            printf(" tq glna lik khrg T9wd \n");
+            printf("error \n");
                 exit(1);
         }
         add_node_list(ss[0],list, countt);
     }
-   
 }
 
 int check_ss(char *line , listt **node)
@@ -209,45 +211,40 @@ int check_ss(char *line , listt **node)
     return 0;
 }
 
+// to do
 void check_floor(char *s , my_map *map , list **listo , int *countt , listt **node)
 {
+  int i;
+  char *sss;
 
- 
     s = ft_strtrim(s," ");
     mylist(s,node);
-    char *sss = s;
-     
+   sss = s;
+   i = -1;
 
-  
     if(!((s[0] == 'C' || s[0] == 'F') && s[1] == ' '))
     {
-        printf("wa sahbi ");
+        printf("error");
         exit(1);
     }
+
     s++;
     s = ft_strtrim(s," ");
     mylist(s,node);
     char **ss = ft_split(s,',');
     add_to_listt(ss,node);
     mylist(ss,node);
+
     if(count(ss) != 3  || s[ft_strlen(s)-1] == ',')
      {
         printf("walhmar  ");
         exit(1);
     }
-    int i = 0;
-    
-    
     while (ss[i])
     {
-        if(check_ss(ss[i],node))
+        if(check_ss(ss[i],node) || ft_atoi(ss[i]) < 0 || ft_atoi(ss[i]) > 255)
         {
-            printf("cc cava ");
-            exit(1);
-        }
-        if(ft_atoi(ss[i]) < 0 || ft_atoi(ss[i]) > 255)
-        {
-            printf("cc cava ");
+            printf("error ");
             exit(1);
         }
         i++;
@@ -258,11 +255,10 @@ void check_floor(char *s , my_map *map , list **listo , int *countt , listt **no
     arr[1] = 0;
       
        add_node_list(arr,listo, countt); 
-
 }
 
 
-
+// to do
 void check_s(char **s, my_map *map, list **list,  int *count , listt **nodee)
 {
    
@@ -286,20 +282,18 @@ void check_s(char **s, my_map *map, list **list,  int *count , listt **nodee)
                         || !ft_strncmp(k[0],"WE",2) || !ft_strncmp(k[0],"EA",2))
                              check_texture(s[i],map ,list , count,nodee);
                     else 
-                    check_floor(s[i],map,list , count,nodee);
-
+                        check_floor(s[i],map,list , count,nodee);
             }
             
             if(*count == 6)
                 break;
-    } 
-
-    
+    }
 }
 
 void fill_listt(list **listo , listt **liste)
 {
     (*listo) = NULL;
+
     add_nodee("SO",listo,liste);
     add_nodee("WE",listo,liste);
     add_nodee("EA",listo,liste);
@@ -329,23 +323,25 @@ int ft_listsize(list *lst)
         lst = lst->next;
     }
     return i;
-
 }
 
-
-
-void parse_map(int fd , my_map *map ,int *count , char **str , listt **node)
+void list_fill(list **list , listt **node)
 {
+    *list = malloc(sizeof(list));
+     mylist(*list,node);
+     fill_listt(list ,node);
+}
+
+int parse_map(int fd , my_map *map ,int *count , char **str , listt **node)
+{
+   list *listt;
+    char *line;
+
+   list_fill(&listt,node);
    
-    list *listt = malloc(sizeof(list));
-    mylist(listt,node);
-    fill_listt(&listt ,node);
 
      char *s = ft_strdup("");
     mylist(s,node);
-
-     char *line;
-  
 
     while ((line = get_next_line(fd)) )
     {
@@ -359,20 +355,22 @@ void parse_map(int fd , my_map *map ,int *count , char **str , listt **node)
      mylist(ss,node);
      add_to_listt(ss,node);
     
-    check_s(ss,map,&listt , count,node);
+   check_s(ss,map,&listt , count,node);
+        
 
     if(duplicate(listt) || *count != 6)
     {
-        printf("honaka mochkil");
-        exit(1);
+        printf("error");
+        return 1;
     } 
+    return 0;
 }
 
 
 int main()
 {
- listt *list=NULL;
 
+ listt *list=NULL;
   my_map map;
   map.texture = malloc(sizeof(map) *4);
   mylist(map.texture,&list);

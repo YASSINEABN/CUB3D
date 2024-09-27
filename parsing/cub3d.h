@@ -44,6 +44,17 @@ typedef struct listt
     struct listt *next;
 }listt;
 
+typedef struct myvar{
+    
+listt *list; 
+ my_map map;
+ char **s;
+ int count;
+ int i;
+ int fd ;
+ char *str
+}myvar;
+
 // typedef struct cub3d
 // {
 //     char **flor;
