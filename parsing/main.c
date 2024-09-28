@@ -218,7 +218,6 @@ int check_floor(char *s  , list **listo , int *countt , listt **node)
         return 1;
     int i = 0;
     
-    
     while (ss[i])
     {
         if(check_ss(ss[i],node))
@@ -246,29 +245,25 @@ int check_texture_floor(char *c , char *s , listt **nodee , int *count ,  list *
 
 int check_s(char **s, list **list,  int *count , listt **nodee)
 {
-   
-    int i = -1;
-    int j = 0;
-    char **k = NULL;
+    int i;
+    int j;
+    char **k;
 
- 
+    i = -1;
+    j = 0;
     while (s[++i] && (k = ft_split(s[i],' ')))
     {
-        
         add_to_listt(k,nodee);
          mylist(k,nodee);
-
             if(k)
             {
                 if(!k[0])
                     continue;
-                check_texture_floor(k[0],s[i],nodee,count,list);              
-                    
+                check_texture_floor(k[0],s[i],nodee,count,list);                   
             }
-            
             if(*count == 6)
                 break;
-    } 
+    }
     return 0;
 }
 
@@ -304,7 +299,6 @@ int ft_listsize(list *lst)
         lst = lst->next;
     }
     return i;
-
 }
 
 void list_fill(list **list , listt **node)
@@ -314,31 +308,33 @@ void list_fill(list **list , listt **node)
      fill_listt(list ,node);
 }
 
+void store_line(char **line , myvar *var , char **s)
+{
+     mylist(*line, &(var->list));
+         *s = ft_strjoin(*s,*line);
+         mylist(*s,&(var->list));
+}
+
 int parse_map(myvar *var)
 {
    list *listt;
+   char *line;
+   char *s;
+   char **ss; 
 
    list_fill(&listt,&(var->list));
-   
-
-     char *s = ft_strdup("");
+    s = ft_strdup("");
     mylist(s,&(var->list));
-     char *line;
-  
+     
     while ((line = get_next_line(var->fd)) )
-    {
-        mylist(line, &(var->list));
-         s = ft_strjoin(s,line);
-         mylist(s,&(var->list));
-    }
+        store_line(&line,var,&s);
 
-        var->str =s;
-    char **ss = ft_split(s,'\n');
+    var->str =s;
+    ss = ft_split(s,'\n');
      mylist(ss,&(var->list));
      add_to_listt(ss,&(var->list));
-    
-
-    if(check_s(ss,&listt , &(var->count),&(var->list)) || duplicate(listt) || var->count != 6)
+    if(check_s(ss,&listt , &(var->count),&(var->list)) || duplicate(listt) 
+                            || var->count != 6)
         return 1;
      var->s = map_to_s(var->str, var->count,&(var->list));
     return 0;
@@ -353,15 +349,13 @@ int parse_map(myvar *var)
     var->map.texture = malloc(sizeof(var->map) *4);
     mylist(var->map.texture,&(var->list));
       var->fd = open("map.cub",O_RDWR);
-  
  }
 
 int main()
 {
      myvar var;
-
     init(&var);
-    
+
       if(!var.fd)
         return -1;
 
