@@ -45,14 +45,16 @@ typedef struct listt
 }listt;
 
 typedef struct myvar{
-    
+
 listt *list; 
  my_map map;
  char **s;
  int count;
  int i;
  int fd ;
- char *str
+ char *str;
+ player player;
+ 
 }myvar;
 
 // typedef struct cub3d
