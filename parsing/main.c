@@ -125,7 +125,7 @@ void add_node_list(char *name  , list **listt, int *countt)
  
 }
 
-void check_map(char **s,player p ,listt **node)
+int check_map(char **s,player p ,listt **node)
 {
     int x = p.x;
     int y = p.y;
@@ -134,12 +134,8 @@ void check_map(char **s,player p ,listt **node)
   
     while (s[x][y])
     {
-       
        if(check_xy(x,y,s))
-       {
-            printf("space is detected a wld l9hba \n");
-            exit(1);
-       }
+            return 1;
        
        do_something(x , y ,s,&queue,node);
        dequee(&queue);
@@ -156,10 +152,8 @@ void check_map(char **s,player p ,listt **node)
     } 
     
     if(check_map2(s))
-    {
-            printf("mrid fkrk ollh\n");
-            exit(1);
-    }
+            return 1;
+    return 0;
     }
     
     int count(char **s)
@@ -174,7 +168,7 @@ void check_map(char **s,player p ,listt **node)
         
     }
 
-void check_texture(char *s , list **list , int *countt,listt **nodee)
+int check_texture(char *s , list **list , int *countt,listt **nodee)
 {
     char **ss = ft_split(s,' ');
     add_to_listt(ss,nodee);
@@ -183,13 +177,10 @@ void check_texture(char *s , list **list , int *countt,listt **nodee)
     if(count(ss) == 2)
     {
         if(open(ss[1],O_RDONLY) == -1)
-        {
-            printf(" tq glna lik khrg T9wd \n");
-                exit(1);
-        }
+               return 1;
         add_node_list(ss[0],list, countt);
     }
-   
+    return 0;
 }
 
 int check_ss(char *line , listt **node)
@@ -209,19 +200,14 @@ int check_ss(char *line , listt **node)
     return 0;
 }
 
-void check_floor(char *s  , list **listo , int *countt , listt **node)
+int check_floor(char *s  , list **listo , int *countt , listt **node)
 {
-
- 
     s = ft_strtrim(s," ");
     mylist(s,node);
     char *sss = s;
      
     if(!((s[0] == 'C' || s[0] == 'F') && s[1] == ' '))
-    {
-        printf("wa sahbi ");
-        exit(1);
-    }
+        return 1;
     s++;
     s = ft_strtrim(s," ");
     mylist(s,node);
@@ -229,25 +215,16 @@ void check_floor(char *s  , list **listo , int *countt , listt **node)
     add_to_listt(ss,node);
     mylist(ss,node);
     if(count(ss) != 3  || s[ft_strlen(s)-1] == ',')
-     {
-        printf("walhmar  ");
-        exit(1);
-    }
+        return 1;
     int i = 0;
     
     
     while (ss[i])
     {
         if(check_ss(ss[i],node))
-        {
-            printf("cc cava ");
-            exit(1);
-        }
+           return 1;
         if(ft_atoi(ss[i]) < 0 || ft_atoi(ss[i]) > 255)
-        {
-            printf("cc cava ");
-            exit(1);
-        }
+            return 1;
         i++;
     }
 
@@ -256,19 +233,18 @@ void check_floor(char *s  , list **listo , int *countt , listt **node)
     arr[1] = 0;
       
        add_node_list(arr,listo, countt); 
-
 }
 
 int check_texture_floor(char *c , char *s , listt **nodee , int *count ,  list **list)
 {
     if((!ft_strncmp(c,"NO",2)) || (!ft_strncmp(c,"SO",2)) 
                         || !ft_strncmp(c,"WE",2) || !ft_strncmp(c,"EA",2))
-                             check_texture(s ,list , count,nodee);
+                            check_texture(s ,list , count,nodee);
                     else 
                     check_floor(s,list , count,nodee);
 }
 
-void check_s(char **s, list **list,  int *count , listt **nodee)
+int check_s(char **s, list **list,  int *count , listt **nodee)
 {
    
     int i = -1;
@@ -293,6 +269,7 @@ void check_s(char **s, list **list,  int *count , listt **nodee)
             if(*count == 6)
                 break;
     } 
+    return 0;
 }
 
 void fill_listt(list **listo , listt **liste)
@@ -337,7 +314,7 @@ void list_fill(list **list , listt **node)
      fill_listt(list ,node);
 }
 
-void parse_map(myvar *var)
+int parse_map(myvar *var)
 {
    list *listt;
 
@@ -348,7 +325,6 @@ void parse_map(myvar *var)
     mylist(s,&(var->list));
      char *line;
   
-
     while ((line = get_next_line(var->fd)) )
     {
         mylist(line, &(var->list));
@@ -361,38 +337,40 @@ void parse_map(myvar *var)
      mylist(ss,&(var->list));
      add_to_listt(ss,&(var->list));
     
-    check_s(ss,&listt , &(var->count),&(var->list));
 
-    if(duplicate(listt) || var->count != 6)
-    {
-        printf("honaka mochkil");
-        exit(1);
-    } 
+    if(check_s(ss,&listt , &(var->count),&(var->list)) || duplicate(listt) || var->count != 6)
+        return 1;
+     var->s = map_to_s(var->str, var->count,&(var->list));
+    return 0;
 }
 
+ int init(myvar *var)
+ {
+    var->s = NULL;
+    var->list = NULL;
+    var->str = NULL;
+    var->count = 0;
+    var->map.texture = malloc(sizeof(var->map) *4);
+    mylist(var->map.texture,&(var->list));
+      var->fd = open("map.cub",O_RDWR);
+  
+ }
 
 int main()
 {
      myvar var;
 
-    var.s = NULL;
-    var.list = NULL;
-    var.str = NULL;
-    var.count = 0;
-
-
-  var.map.texture = malloc(sizeof(var.map) *4);
-  mylist(var.map.texture,&var.list);
-
-    var.fd = open("map.cub",O_RDWR);
-    if(!var.fd)
+    init(&var);
+    
+      if(!var.fd)
         return -1;
 
-    parse_map(&var);
- 
-      var.s = map_to_s(var.str, var.count,&var.list);
-      find_direction(&var.player,var.s,&var.list);
-       check_map(var.s,var.player,&var.list);
-       garbage_collector(&var.list,free);
+    if(parse_map(&var) || find_direction(&var.player,var.s,&var.list)
+                 || check_map(var.s,var.player,&var.list))
+    {
+        printf("error");
+        return (garbage_collector(&var.list,free),1);
+    }
+     return (garbage_collector(&var.list,free),1);
 }
 

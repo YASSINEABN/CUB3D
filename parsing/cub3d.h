@@ -65,7 +65,7 @@ listt *list;
 // };
 
 char *get_next_line(int fd);
-void find_direction(player *player , char **map,listt **node);
+int find_direction(player *player,char **mini_map,listt **node);
 queue *add_node(int x,int y, int check,listt **node);
 void add_quee(queue **queu , int x, int y , int check,listt **node);
 void dequee(queue **queu );

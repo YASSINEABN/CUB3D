@@ -30,12 +30,10 @@ char	*get_next_line(int fd)
 	return (ft_strdup(line));
 }
 
-void find_direction(player *player,char **mini_map,listt **node)
+int find_direction(player *player,char **mini_map,listt **node)
 {
 	int i,j,flag = 0;
 	
-	
-	//  char **another_map = mini_map;
 	i = -1;
 	while (mini_map[++i])
 	{
@@ -54,17 +52,13 @@ void find_direction(player *player,char **mini_map,listt **node)
 			j++;
 		}
 		
-		
-	
 		if(flag>1)
 			{
 				printf("there is two player ");
-				exit(0);
+				return 1;
 			}
-			
-			
 	}
-	
+	return 0;
 }
 
 char ** map_to_s(char *s , int count , listt **node )
@@ -122,32 +116,6 @@ check = 0;
 	mylist(str,node);
 	
 	return str;
-	
-	
-	
-	 
-
-	// while (*s)
-	// {		
-	// 	if(*s == '\n' || *s == ' ')
-	// 		s++; 
-	// 	else
-	// 		printf("%c",*s);	
-	// 	s++;
-	// }
-
-	// exit(1);
-
-	// while (*s)
-	// {
-	// 	if(*s == '\n')
-	// 	{
-	// 		printf("khoya gha nta li katkhwr \n");
-	// 		exit(1);
-	// 	}
-	// 	s++;
-	// }
-	
 }
 
 void mylist(void *node, listt **nodee)
