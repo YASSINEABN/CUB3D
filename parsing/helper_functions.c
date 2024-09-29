@@ -151,21 +151,6 @@ void	garbage_collector(listt **lst, void (*del)(void *))
 	}
 }
 
-void	garbage_collector2(list **lst, void (*del)(void *))
-{
-	list	*temp;
-
-	if (!lst)
-		return ;
-	while (*lst)
-	{
-		temp = (*lst)->next;
-        free(*lst);
-		*lst = temp;
-	}
-	
-	
-}
 
 void add_to_listt(char **ss,listt **node)
 {
