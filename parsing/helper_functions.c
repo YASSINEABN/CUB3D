@@ -57,60 +57,63 @@ int find_direction(player *player,char **mini_map,listt **node)
 	return 0;
 }
 
-char ** map_to_s(char *s , int count , listt **node )
+void parse_s(char **s , int count,listt **node)
 {
-
-    char *line;
-	
 	int check = 0;
 	int countt = 0;
 	
-	while (*s)
+	while (**s)
 	{
-		if((*s != '\n' && *s != ' ') && check == 0)
+		if((**s != '\n' && **s != ' ') && check == 0)
 			check = 1;
-		else if(*s == '\n' && check == 1)
+		else if(**s == '\n' && check == 1)
 		{
 			check = 0;
 			countt++;
 		}
-
 		if (countt == count)
 			break;
-
-		s++;
+		(*s)++;
 	}
+	  *s = ft_strtrim(*s , "\n");
+		  mylist(*s,node);
 
-	 s = ft_strtrim(s , "\n");
-	 mylist(s,node);
-	 while (*s == '\n' || *s == ' ')
-		s++;
+		 while (**s == '\n' || **s == ' ')
+			(*s)++;
+}
 
-	int i = -1;
-check = 0;
+void check_s2(char c ,int *check , listt **node)
+{
+	if(c == '\n' && *check == 0)
+			*check =1 ;
 
-	while (s[++i])
-	{
-		if(s[i] == '\n' && check == 0)
-			check =1 ;
-
-			else if( ((s[i] == '\n') && check == 1))
+			else if( ((c == '\n') && *check == 1))
 				{
 					printf("error");
+					garbage_collector(node,free);
 					exit(1);
 				}
-			else if(s[i] == ' ')
-				continue;
+			else if(c == ' ')
+				return ;
 			else 
-			check = 0;
-	
-	}
-	
+				*check = 0;
+}
 
-	char **str = ft_split(s,'\n');
+char ** map_to_s(char *s , int count , listt **node )
+{
+    char *line;
+	int check;
+	int i;
+	char **str;
+
+check = 0;
+i = -1;
+parse_s(&s,count,node);
+	while (s[++i])
+		check_s2(s[i],&check,node);
+	str = ft_split(s,'\n');
 	add_to_listt(str,node);
 	mylist(str,node);
-	
 	return str;
 }
 
@@ -127,13 +130,10 @@ void mylist(void *node, listt **nodee)
 	{
 		listt *head = *nodee;
 		while (head->next)
-		{
 			head = head->next;
-		}
 			
 		head->next = nod;
 	}
-	
 }
 
 void	garbage_collector(listt **lst, void (*del)(void *))
