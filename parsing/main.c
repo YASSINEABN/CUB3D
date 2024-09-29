@@ -1,6 +1,4 @@
 #include "cub3d.h"
-int check =0;
-
 
 
 int check_xy(int x , int y , char **s)
@@ -56,35 +54,54 @@ void do_something(int x , int y , char **s,queue **queue , listt **node)
         return 0;
     }
 
+int last_ind(char *str)
+{
+    int i = ft_strlen(str)-1;
+    while (str[i] == ' ')
+        i--;
+    return i;
+}
+
+int first_ind(char *str)
+{
+    int i = 0;
+    while(str[i] == ' ')
+        i++;
+    return i;
+}
+
 int check_map2(char **s)
 {
-int i = 0 , j = 0;
-int check =0;
+int i;
+int j;
+
+i = -1;
+j = -1;
+int check =0; 
     
-    while (s[i])
+    while (s[++i])
     {
+         if(s[i][first_ind(s[i])] != '1' || s[i][last_ind(s[i])] != '1')
+            return 1;
         if(!(s[i+1]))
             check=i;
-    
-        while (s[i][j])
-        {
+        while (s[i][++j])
                 if(simple_check(i,j,s,check))
                     return 1;
-                j++;
-        }
-
-      j = 0;
-      i++;  
+      j = -1;
     }
     return 0;
 }
 
 void add_nodee(char *name , list **listo , listt **liste)
 {
+    list *test;
+    list *head;
+
   if(!(*listo))
   {
-        list *test = malloc(sizeof(list));
-        mylist(test,liste);
+    test = malloc(sizeof(list));
+    mylist(test,liste);
     test->name = name;
     test->next=NULL;
     test->value =0;
@@ -92,13 +109,11 @@ void add_nodee(char *name , list **listo , listt **liste)
   }
   else 
     {
-        list *head = *listo;
-        while (head->next)
-        {
-            head = head->next;
-        }
-        list *test = malloc(sizeof(list));
-         mylist(test,liste);
+    head = *listo;
+    while (head->next)
+        head = head->next;
+    list *test = malloc(sizeof(list));
+     mylist(test,liste);
     test->name = name;
     test->next=NULL;
     test->value =0;
@@ -106,9 +121,9 @@ void add_nodee(char *name , list **listo , listt **liste)
     }
 }
 
-void add_node_list(char *name  , list **listt, int *countt)
+void add_node_list(char *name  , list **listo, int *countt , listt **node)
 {
-    list *head = *listt;
+    list *head = *listo;
 
     while ((head))
     {
@@ -121,42 +136,37 @@ void add_node_list(char *name  , list **listt, int *countt)
         head = head->next;
     }
     printf("error");
+    garbage_collector(node,free);
     exit(1);
- 
 }
 
 int check_map(char **s,player p ,listt **node)
 {
-    int x = p.x;
-    int y = p.y;
-    int i,j = 0;
-    queue *queue = NULL;
-  
-    while (s[x][y])
+    queue *queue;
+    
+    queue = NULL;
+    while (s[p.x][p.y])
     {
-       if(check_xy(x,y,s))
+       if(check_xy(p.x,p.y,s))
             return 1;
        
-       do_something(x , y ,s,&queue,node);
+       do_something(p.x , p.y ,s,&queue,node);
        dequee(&queue);
-        
-       s[x][y] = 'V';
-
+       s[p.x][p.y] = 'V';
         if(queue)
         {
-            x = queue->x;
-            y = queue->y;
+            p.x = queue->x;
+            p.y = queue->y;
         }
         else
             break;
     } 
-    
     if(check_map2(s))
             return 1;
-    return 0;
-    }
+     return 0;
+}
     
-    int count(char **s)
+int count(char **s)
     {
         int i=0;
         while (*s)
@@ -164,8 +174,7 @@ int check_map(char **s,player p ,listt **node)
             s++;
             i++;
         }
-        return i;
-        
+        return i; 
     }
 
 int check_texture(char *s , list **list , int *countt,listt **nodee)
@@ -178,7 +187,7 @@ int check_texture(char *s , list **list , int *countt,listt **nodee)
     {
         if(open(ss[1],O_RDONLY) == -1)
                return 1;
-        add_node_list(ss[0],list, countt);
+        add_node_list(ss[0],list, countt,nodee);
     }
     return 0;
 }
@@ -200,38 +209,44 @@ int check_ss(char *line , listt **node)
     return 0;
 }
 
+
+int process_s(char **s, char **ss , listt **node )
+{
+    *s = ft_strtrim(*s," ");
+
+    mylist(*s,node);
+    *ss = *s;
+      
+    if(!((**s == 'C' || **s == 'F') && s[0][1] == ' '))
+        return 1;
+ 
+    (*s)++;
+     *s = ft_strtrim(*s," ");
+    mylist(*s,node);
+    (*ss)[1] = 0;
+return 0;
+
+}
+
 int check_floor(char *s  , list **listo , int *countt , listt **node)
 {
-    s = ft_strtrim(s," ");
-    mylist(s,node);
-    char *sss = s;
-     
-    if(!((s[0] == 'C' || s[0] == 'F') && s[1] == ' '))
+    char *sss;
+    int i;
+
+    if(process_s(&s,&sss,node))
         return 1;
-    s++;
-    s = ft_strtrim(s," ");
-    mylist(s,node);
+    i = -1;
     char **ss = ft_split(s,',');
     add_to_listt(ss,node);
     mylist(ss,node);
     if(count(ss) != 3  || s[ft_strlen(s)-1] == ',')
         return 1;
-    int i = 0;
-    
-    while (ss[i])
-    {
-        if(check_ss(ss[i],node))
-           return 1;
-        if(ft_atoi(ss[i]) < 0 || ft_atoi(ss[i]) > 255)
-            return 1;
-        i++;
-    }
 
-    char arr[1];
-    arr[0] = sss[0];
-    arr[1] = 0;
-      
-       add_node_list(arr,listo, countt); 
+    while (ss[++i])
+        if(check_ss(ss[i],node) || ft_atoi(ss[i]) < 0 || ft_atoi(ss[i]) > 255)
+            return 1; 
+       add_node_list(sss,listo, countt,node); 
+    return 0;
 }
 
 int check_texture_floor(char *c , char *s , listt **nodee , int *count ,  list **list)
@@ -284,7 +299,6 @@ int duplicate(list *listt)
     {
         if((listt)->value == 0 || (listt)->value > 1)
             return 1;
-      
         (listt) = (listt)->next;
     }
     return 0;
@@ -325,7 +339,6 @@ int parse_map(myvar *var)
    list_fill(&listt,&(var->list));
     s = ft_strdup("");
     mylist(s,&(var->list));
-     
     while ((line = get_next_line(var->fd)) )
         store_line(&line,var,&s);
 
@@ -336,6 +349,7 @@ int parse_map(myvar *var)
     if(check_s(ss,&listt , &(var->count),&(var->list)) || duplicate(listt) 
                             || var->count != 6)
         return 1;
+
      var->s = map_to_s(var->str, var->count,&(var->list));
     return 0;
 }
@@ -350,6 +364,8 @@ int parse_map(myvar *var)
     mylist(var->map.texture,&(var->list));
       var->fd = open("map.cub",O_RDWR);
  }
+
+
 
 int main()
 {

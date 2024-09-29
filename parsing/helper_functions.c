@@ -32,14 +32,16 @@ char	*get_next_line(int fd)
 
 int find_direction(player *player,char **mini_map,listt **node)
 {
-	int i,j,flag = 0;
+	int i;
+	int j;
+	int flag;
 	
+	flag = 0;
 	i = -1;
 	while (mini_map[++i])
 	{
-		j = 0;
-		
-		while (mini_map[i][j])
+		j = -1;
+		while (mini_map[i][++j])
 		{
 			
 			if(mini_map[i][j] == 'N' || mini_map[i][j] == 'E' || mini_map[i][j] == 'S' )
@@ -48,15 +50,9 @@ int find_direction(player *player,char **mini_map,listt **node)
 				(player->y) = j;
 				 flag++;
 			}
-			
-			j++;
 		}
-		
 		if(flag>1)
-			{
-				printf("there is two player ");
 				return 1;
-			}
 	}
 	return 0;
 }
