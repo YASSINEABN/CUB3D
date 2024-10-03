@@ -32,7 +32,7 @@ int	check_s(char **s, list **list,myvar *var)
 		{
 			if (!k[0])
 				continue ;
-			check_texture_floor(k[0], s[i],&var->list, &var->count, list);
+			check_texture_floor(k[0], s[i],var, list);
 		}
 		if (var->count == 6)
 			break ;
