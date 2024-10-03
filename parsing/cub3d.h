@@ -57,13 +57,6 @@ listt *list;
  
 }myvar;
 
-// typedef struct cub3d
-// {
-//     char **flor;
-//     char **textures;
-//     char **map;
-// };
-
 char *get_next_line(int fd);
 int find_direction(player *player,char **mini_map,listt **node);
 queue *add_node(int x,int y, int check,listt **node);
@@ -72,8 +65,31 @@ void dequee(queue **queu );
 char ** map_to_s(char *s , int count ,listt **node);
 void mylist(void *node, listt **nodee);
 void	garbage_collector(listt **lst, void (*del)(void *));
-// void	garbage_collector2(list **lst, void (*del)(void *));
 void add_to_listt(char **ss,listt **node);
+int	simple_check(int i, int j, char **s, int check);
+int	last_ind(char *str);
+int	first_ind(char *str);
+int	ft_listsize(list *lst);
+void	list_fill(list **list, listt **node);
+void	store_line(char **line, myvar *var, char **s);
+void	fill_listt(list **listo, listt **liste);
+void	add_node_list(char *name, list **listo, int *countt, listt **node);
+int	check_map(char **s, player p, listt **node);
+void	do_something(player p, char **s, queue **queue, listt **node);
+int	check_xy(int x, int y, char **s);
+int	check_map2(char **s);
+int	check_floor(char *s, list **listo, int *countt, listt **node);
+void	check_texture_floor(char *c, char *s, listt **nodee, int *count,
+		list **list);
+int	check_s(char **s, list **list, int *count, listt **nodee);
+int	process_s(char **s, char **ss, listt **node);
+int	count(char **s);
+int	check_texture(char *s, list **list, int *countt, listt **nodee);
+int	check_ss(char *line, listt **node);
+void	add_nodee(char *name, list **listo, listt **liste);
+int	check_s(char **s, list **list, int *count, listt **nodee);
+int	process_s(char **s, char **ss, listt **node);
+void	parse_s(char **s, int count, listt **node);
 
 
 #endif

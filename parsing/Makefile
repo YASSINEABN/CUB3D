@@ -3,7 +3,7 @@ CC := cc
 
 NAME := cub3D
 
-SRC = main.c helper_functions.c quee_functions.c
+SRC = main.c helper_functions.c quee_functions.c helper_functions1.c helper_functions2.c helper_Textures.c helper_functions3.c helper_functions4.c
 
 OBJ := $(SRC:.c=.o)
 

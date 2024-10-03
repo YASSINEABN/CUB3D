@@ -22,7 +22,6 @@ void add_quee(queue **queu , int x, int y , int check , listt **node)
 
     if(!(*queu))
         *queu = queuee;
-        // *queu = add_node(x,y,check,node);
     else
     {
         queue *head =*queu;
@@ -30,7 +29,6 @@ void add_quee(queue **queu , int x, int y , int check , listt **node)
             (head) = (head)->next;
         
         head->next = queuee;
-        // (head)->next = add_node(x,y,check,node);
     }
 }
 
@@ -49,5 +47,13 @@ void dequee(queue **queu )
         *queu = front->next;
         front=NULL;
     }
-
 }
+
+// void	print_queue(queue **q)
+// {
+// 	while (*q)
+// 	{
+// 		printf("%d, %d\n", (*q)->x, (*q)->y);
+// 		(*q) = (*q)->next;
+// 	}
+// }
