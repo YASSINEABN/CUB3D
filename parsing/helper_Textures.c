@@ -16,7 +16,7 @@ int	check_texture(char *s, list **list, int *countt, listt **nodee)
 	return (0);
 }
 
-int	check_s(char **s, list **list, int *count, listt **nodee)
+int	check_s(char **s, list **list,myvar *var)
 {
 	int		i;
 	int		j;
@@ -26,15 +26,15 @@ int	check_s(char **s, list **list, int *count, listt **nodee)
 	j = 0;
 	while (s[++i] && (k = ft_split(s[i], ' ')))
 	{
-		add_to_listt(k, nodee);
-		mylist(k, nodee);
+		add_to_listt(k, &var->list);
+		mylist(k, &var->list);
 		if (k)
 		{
 			if (!k[0])
 				continue ;
-			check_texture_floor(k[0], s[i], nodee, count, list);
+			check_texture_floor(k[0], s[i],&var->list, &var->count, list);
 		}
-		if (*count == 6)
+		if (var->count == 6)
 			break ;
 	}
 	return (0);

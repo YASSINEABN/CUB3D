@@ -40,7 +40,7 @@ int	parse_map(myvar *var)
 	ss = ft_split(s, '\n');
 	mylist(ss, &(var->list));
 	add_to_listt(ss, &(var->list));
-	if (check_s(ss, &listt, &(var->count), &(var->list)) || duplicate(listt)
+	if (check_s(ss, &listt, var) || duplicate(listt)
 		|| var->count != 6)
 		return (1);
 	var->s = map_to_s(var->str, var->count, &(var->list));

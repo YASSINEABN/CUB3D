@@ -81,13 +81,12 @@ int	check_map2(char **s);
 int	check_floor(char *s, list **listo, int *countt, listt **node);
 void	check_texture_floor(char *c, char *s, listt **nodee, int *count,
 		list **list);
-int	check_s(char **s, list **list, int *count, listt **nodee);
 int	process_s(char **s, char **ss, listt **node);
 int	count(char **s);
 int	check_texture(char *s, list **list, int *countt, listt **nodee);
 int	check_ss(char *line, listt **node);
 void	add_nodee(char *name, list **listo, listt **liste);
-int	check_s(char **s, list **list, int *count, listt **nodee);
+int	check_s(char **s, list **list,myvar *var);
 int	process_s(char **s, char **ss, listt **node);
 void	parse_s(char **s, int count, listt **node);
 
