@@ -7,7 +7,7 @@ void	do_something(player p, char **s, queue **queue, listt **node)
 	if (s[p.x - 1][p.y] && s[p.x - 1][p.y] == '0')
 		add_quee(queue, p.x - 1, p.y, node);
 	if (s[p.x][p.y + 1] && s[p.x][p.y + 1] == '0')
-		add_quee(queue, p.x, p.y + 1, 0, node);
+		add_quee(queue, p.x, p.y + 1, node);
 	if (s[p.x + 1][p.y] && s[p.x + 1][p.y] == '0')
 		add_quee(queue, p.x + 1, p.y, node);
 	if (s[p.x][p.y + 1] && s[p.x][p.y - 1] == '0')

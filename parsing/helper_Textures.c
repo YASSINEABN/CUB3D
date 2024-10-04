@@ -40,14 +40,13 @@ int	check_s(char **s, list **list,myvar *var)
 	return (0);
 }
 
-void	check_texture_floor(char *c, char *s, listt **nodee, int *count,
-		list **list)
+void	check_texture_floor(char *c, char *s,myvar *var ,list **listt)
 {
 	if ((!ft_strncmp(c, "NO", 2)) || (!ft_strncmp(c, "SO", 2)) || !ft_strncmp(c,
 			"WE", 2) || !ft_strncmp(c, "EA", 2))
-		check_texture(s, list, count, nodee);
+		check_texture(s, listt, &var->count, &var->list);
 	else
-		check_floor(s, list, count, nodee);
+		check_floor(s, listt,  &var->count, &var->list);
 }
 
 int	check_floor(char *s, list **listo, int *countt, listt **node)

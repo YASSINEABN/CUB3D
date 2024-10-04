@@ -64,7 +64,7 @@ char				*get_next_line(int fd);
 int					find_direction(player *player, char **mini_map,
 						listt **node);
 queue				*add_node(int x, int y, int check, listt **node);
-void				add_quee(queue **queu, int x, int y, listt **node);
+void	add_quee(queue **queu, int x, int y, listt **node);
 void				dequee(queue **queu);
 char				**map_to_s(char *s, int count, listt **node);
 void				mylist(void *node, listt **nodee);
@@ -86,11 +86,10 @@ int					check_xy(int x, int y, char **s);
 int					check_map2(char **s);
 int					check_floor(char *s, list **listo, int *countt,
 						listt **node);
-void				check_texture_floor(char *c, char *s, listt **nodee,
-						int *count, list **list);
+void	check_texture_floor(char *c, char *s,myvar *var ,list **listt);
 int					process_s(char **s, char **ss, listt **node);
 int					count(char **s);
-int	check_texture(char *s, list **list, myvar *var);
+int	check_texture(char *s, list **list, int *countt, listt **nodee);
 int					check_ss(char *line, listt **node);
 void				add_nodee(char *name, list **listo, listt **liste);
 int					check_s(char **s, list **list, myvar *var);
