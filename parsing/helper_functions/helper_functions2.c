@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	do_something(player p, char **s, queue **queue, listt **node)
 {

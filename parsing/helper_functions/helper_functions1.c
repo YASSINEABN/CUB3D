@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	check_s2(char c, int *check, listt **node)
 {

@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 int	check_texture(char *s, list **list, int *countt, listt **nodee)
 {

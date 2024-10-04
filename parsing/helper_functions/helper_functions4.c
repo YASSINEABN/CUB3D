@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 int	simple_check(int i, int j, char **s, int check)
 {
