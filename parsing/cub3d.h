@@ -95,5 +95,6 @@ void				add_nodee(char *name, list **listo, listt **liste);
 int					check_s(char **s, list **list, myvar *var);
 int					process_s(char **s, char **ss, listt **node);
 void				parse_s(char **s, int count, listt **node);
+int check_extension(char *str ,char *s);
 
 #endif

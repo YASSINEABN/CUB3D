@@ -9,7 +9,7 @@ int	check_texture(char *s, list **list, int *countt, listt **nodee)
 	mylist(ss, nodee);
 	if (count(ss) == 2)
 	{
-		if (open(ss[1], O_RDONLY) == -1)
+		if (open(ss[1], O_RDONLY) == -1 || !(check_extension(ss[1],".xpm")))
 			return (1);
 		add_node_list(ss[0], list, countt, nodee);
 	}

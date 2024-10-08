@@ -47,7 +47,19 @@ int	parse_map(myvar *var)
 	return (0);
 }
 
-void	init(myvar *var)
+int check_extension(char *str ,char *s)
+{
+	int i; 
+
+	i = ft_strlen(str) - 4;
+	if(!ft_strncmp(str+i,s,i))
+		return 1;
+	else
+		return 0;
+}
+
+
+void	init(myvar *var , int argc , char **argv)
 {
 	var->s = NULL;
 	var->list = NULL;
@@ -56,13 +68,16 @@ void	init(myvar *var)
 	var->map.texture = malloc(sizeof(var->map) * 4);
 	mylist(var->map.texture, &(var->list));
 	var->fd = open("map.cub", O_RDWR);
+	//TO DO
+	if(!(check_extension(argv[1], ".cub")) || argc !=2 )
+		var->fd = -1;
 }
 
-int	main(void)
+int	main(int argc , char **argv)
 {
 	myvar	var;
 
-	init(&var);
+	init(&var, argc , argv);
 	if (!var.fd)
 		return (-1);
 	if (parse_map(&var) || find_direction(&var.player, var.s, &var.list)
