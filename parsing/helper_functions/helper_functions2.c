@@ -68,17 +68,16 @@ void	add_nodee(char *name, list **listo, listt **liste)
 int	check_ss(char *line, listt **node)
 {
 	int	check;
-	int	i;
+
 
 	line = ft_strtrim(line, " ");
 	mylist(line, node);
 	check = 0;
-	i = 0;
 	while (*line)
 	{
 		if (*line == ' ')
 			check = 1;
-		if (check == 1 && *line != ' ' || !ft_isdigit(*line))
+		if ((check == 1 && *line != ' ' ) || !ft_isdigit(*line))
 			return (1);
 		line++;
 	}

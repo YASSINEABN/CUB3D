@@ -1,6 +1,6 @@
 #include "../cub3d.h"
 
-queue	*add_node(int x, int y, int check, listt **node)
+queue	*add_node(int x, int y)
 {
 	queue	*queue;
 

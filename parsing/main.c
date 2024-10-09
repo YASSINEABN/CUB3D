@@ -52,6 +52,8 @@ int check_extension(char *str ,char *s)
 	int i; 
 
 	i = ft_strlen(str) - 4;
+
+
 	if(!ft_strncmp(str+i,s,i))
 		return 1;
 	else
@@ -68,7 +70,7 @@ void	init(myvar *var , int argc , char **argv)
 	var->map.texture = malloc(sizeof(var->map) * 4);
 	mylist(var->map.texture, &(var->list));
 	var->fd = open("map.cub", O_RDWR);
-	//TO DO
+	
 	if(!(check_extension(argv[1], ".cub")) || argc !=2 )
 		var->fd = -1;
 }
@@ -80,11 +82,13 @@ int	main(int argc , char **argv)
 	init(&var, argc , argv);
 	if (!var.fd)
 		return (-1);
-	if (parse_map(&var) || find_direction(&var.player, var.s, &var.list)
+	if (parse_map(&var) || find_direction(&var.player, var.s)
 		|| check_map(var.s, var.player, &var.list))
 	{
 		printf("error ");
 		return (garbage_collector(&var.list, free), 1);
 	}
+	
 	return (garbage_collector(&var.list, free), 1);
+	
 }

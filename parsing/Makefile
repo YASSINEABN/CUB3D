@@ -12,7 +12,7 @@ OBJ := $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(OBJ) libft/libft.a
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) libft/libft.a
 
 clean:
 	rm -rf $(OBJ) 

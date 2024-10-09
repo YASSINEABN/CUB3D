@@ -9,6 +9,7 @@ int	check_texture(char *s, list **list, int *countt, listt **nodee)
 	mylist(ss, nodee);
 	if (count(ss) == 2)
 	{
+
 		if (open(ss[1], O_RDONLY) == -1 || !(check_extension(ss[1],".xpm")))
 			return (1);
 		add_node_list(ss[0], list, countt, nodee);
@@ -19,11 +20,9 @@ int	check_texture(char *s, list **list, int *countt, listt **nodee)
 int	check_s(char **s, list **list,myvar *var)
 {
 	int		i;
-	int		j;
 	char	**k;
 
 	i = -1;
-	j = 0;
 	while (s[++i] && (k = ft_split(s[i], ' ')))
 	{
 		add_to_listt(k, &var->list);
@@ -49,6 +48,16 @@ void	check_texture_floor(char *c, char *s,myvar *var ,list **listt)
 		check_floor(s, listt,  &var->count, &var->list);
 }
 
+int check_sfloor(char *s)
+{
+	int i = -1;
+	
+	while (s[++i])
+		if((s[i] == ',' && s[i+1] == s[i] ) || s[0] == ',')
+			return 1;
+		return 0;
+}
+
 int	check_floor(char *s, list **listo, int *countt, listt **node)
 {
 	char	*sss;
@@ -61,7 +70,8 @@ int	check_floor(char *s, list **listo, int *countt, listt **node)
 	ss = ft_split(s, ',');
 	add_to_listt(ss, node);
 	mylist(ss, node);
-	if (count(ss) != 3 || s[ft_strlen(s) - 1] == ',')
+	// TO DO
+	if (count(ss) != 3 || s[ft_strlen(s) - 1] == ',' || (check_sfloor(s)))
 		return (1);
 	while (ss[++i])
 		if (check_ss(ss[i], node) || ft_atoi(ss[i]) < 0 || ft_atoi(ss[i]) > 255)

@@ -30,7 +30,7 @@ char	*get_next_line(int fd)
 	return (ft_strdup(line));
 }
 
-int	find_direction(player *player, char **mini_map, listt **node)
+int	find_direction(player *player, char **mini_map)
 {
 	int	i;
 	int	j;

@@ -53,6 +53,7 @@ typedef struct myvar
 	my_map			map;
 	char			**s;
 	int				count;
+
 	int				i;
 	int				fd;
 	char			*str;
@@ -61,9 +62,8 @@ typedef struct myvar
 }					myvar;
 
 char				*get_next_line(int fd);
-int					find_direction(player *player, char **mini_map,
-						listt **node);
-queue				*add_node(int x, int y, int check, listt **node);
+int					find_direction(player *player, char **mini_map);
+queue				*add_node(int x, int y);
 void	add_quee(queue **queu, int x, int y, listt **node);
 void				dequee(queue **queu);
 char				**map_to_s(char *s, int count, listt **node);

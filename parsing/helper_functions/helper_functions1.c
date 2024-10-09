@@ -18,7 +18,6 @@ void	check_s2(char c, int *check, listt **node)
 
 char	**map_to_s(char *s, int count, listt **node)
 {
-	char	*line;
 	int		check;
 	int		i;
 	char	**str;
@@ -62,8 +61,8 @@ void	garbage_collector(listt **lst, void (*del)(void *))
 	while (*lst)
 	{
 		temp = (*lst)->next;
-		free((*lst)->node);
-		free(*lst);
+		del((*lst)->node);
+		del(*lst);
 		*lst = temp;
 	}
 }
