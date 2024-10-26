@@ -50,26 +50,26 @@ void	add_node_list(char *name, list **listo, int *countt, listt **node)
 	exit(1);
 }
 
-int	check_map(char **s, player p, listt **node)
+int	check_map(char **s)
 {
-	queue	*queue;
+	// queue	*queue;
 
-	queue = NULL;
-	while (s[p.x][p.y])
-	{
-		if (check_xy(p.x, p.y, s))
-			return (1);
-		do_something(p, s, &queue, node);
-		dequee(&queue);
-		s[p.x][p.y] = 'V';
-		if (queue)
-		{
-			p.x = queue->x;
-			p.y = queue->y;
-		}
-		else
-			break ;
-	}
+	// queue = NULL;
+	// while (s[p.x][p.y])
+	// {
+	// 	if (check_xy(p.x, p.y, s))
+	// 		return (1);
+	// 	do_something(p, s, &queue, node);
+	// 	dequee(&queue);
+	// 	s[p.x][p.y] = 'V';
+	// 	if (queue)
+	// 	{
+	// 		p.x = queue->x;
+	// 		p.y = queue->y;
+	// 	}
+	// 	else
+	// 		break ;
+	// }
 		
 		
 	if (check_map2(s))

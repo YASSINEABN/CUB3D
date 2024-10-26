@@ -88,7 +88,7 @@ int	main(int argc , char **argv)
 	if (!var.fd)
 		return (-1);
 	if (parse_map(&var) || find_direction(&var.player, var.s)
-		|| check_map(var.s, var.player, &var.list))
+		|| check_map(var.s))
 	{
 		printf("error ");
 		return (garbage_collector(&var.list, free), 1);
