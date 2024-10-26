@@ -2,14 +2,14 @@
 
 queue	*add_node(int x, int y)
 {
-	queue	*queue;
+	queue	*queuee;
 
-	queue = malloc(sizeof(queue));
-	queue->x = x;
-	queue->y = y;
-	queue->visited = 1;
-	queue->next = NULL;
-	return (queue);
+	queuee = malloc(sizeof(queue));
+	queuee->x = x;
+	queuee->y = y;
+	queuee->visited = 1;
+	queuee->next = NULL;
+	return (queuee);
 }
 
 void	add_quee(queue **queu, int x, int y, listt **node)

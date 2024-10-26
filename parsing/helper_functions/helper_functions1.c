@@ -2,18 +2,23 @@
 
 void	check_s2(char c, int *check, listt **node)
 {
-	if (c == '\n' && *check == 0)
-		*check = 1;
-	else if (((c == '\n') && *check == 1))
+	
+	
+	if (c == '\n')
+		(*check)++;
+
+	else if (c == ' ')
+		return ;
+	
+	else if (((c != '\n' && c != ' ') && *check > 1))
 	{
 		printf("error");
 		garbage_collector(node, free);
 		exit(1);
 	}
-	else if (c == ' ')
-		return ;
-	else
+	else 
 		*check = 0;
+	
 }
 
 char	**map_to_s(char *s, int count, listt **node)
@@ -24,12 +29,20 @@ char	**map_to_s(char *s, int count, listt **node)
 
 	check = 0;
 	i = -1;
-	parse_s(&s, count, node);
+	parse_s(&s, count);
+	
+		
 	while (s[++i])
 		check_s2(s[i], &check, node);
+
+
+	
 	str = ft_split(s, '\n');
 	add_to_listt(str, node);
+	
 	mylist(str, node);
+
+	
 	return (str);
 }
 

@@ -23,15 +23,15 @@ int	check_map2(char **s)
 	i = -1;
 	j = -1;
 	check = 0;
+	
 	while (s[++i])
 	{
-		if (s[i][first_ind(s[i])] != '1' || s[i][last_ind(s[i])] != '1')
-			return (1);
 		if (!(s[i + 1]))
 			check = i;
 		while (s[i][++j])
 			if (simple_check(i, j, s, check))
 				return (1);
+	
 		j = -1;
 	}
 	return (0);

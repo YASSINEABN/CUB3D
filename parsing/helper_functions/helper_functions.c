@@ -38,6 +38,7 @@ int	find_direction(player *player, char **mini_map)
 
 	flag = 0;
 	i = -1;
+	
 	while (mini_map[++i])
 	{
 		j = -1;
@@ -53,17 +54,23 @@ int	find_direction(player *player, char **mini_map)
 		}
 		if (flag > 1)
 			return (1);
+
+	
 	}
+	
+
 	return (0);
 }
 
-void	parse_s(char **s, int count, listt **node)
+void	parse_s(char **s, int count)
 {
+
 	int    check;
 	int    countt;
 
 	check = 0;
 	countt = 0;
+
 	while (**s)
 	{
 		if ((**s != '\n' && **s != ' ') && check == 0)
@@ -77,8 +84,26 @@ void	parse_s(char **s, int count, listt **node)
 			break ;
 		(*s)++;
 	}
-	*s = ft_strtrim(*s, "\n");
-	mylist(*s, node);
-	while (**s == '\n' || **s == ' ')
-		(*s)++;
+
+	
+
+ int i =0;
+
+ while (s[0][i])
+ {
+ 	if(s[0][i] == '\n' || s[0][i] == ' ' )
+ 		i++;
+ 	else 
+ 		break;
+ }
+
+if(s[0][i-1] == ' ')
+ 	i--;
+
+while (s[0][i] == ' ' && i--);
+
+*s += (i+1);
+
+
+
 }

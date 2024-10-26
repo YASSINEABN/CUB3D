@@ -70,8 +70,12 @@ int	check_map(char **s, player p, listt **node)
 		else
 			break ;
 	}
+		
+		
 	if (check_map2(s))
 		return (1);
+	
+
 	return (0);
 }
 

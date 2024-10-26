@@ -53,8 +53,10 @@ int check_sfloor(char *s)
 	int i = -1;
 	
 	while (s[++i])
+	{
 		if((s[i] == ',' && s[i+1] == s[i] ) || s[0] == ',')
 			return 1;
+	}
 		return 0;
 }
 

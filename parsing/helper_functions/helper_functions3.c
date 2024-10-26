@@ -33,11 +33,11 @@ int	ft_listsize(list *lst)
 	return (i);
 }
 
-void	list_fill(list **list, listt **node)
+void	list_fill(list **listtt, listt **node)
 {
-	*list = malloc(sizeof(list));
-	mylist(*list, node);
-	fill_listt(list, node);
+	*listtt = malloc(sizeof(list));
+	mylist(*listtt, node);
+	fill_listt(listtt, node);
 }
 
 void	fill_listt(list **listo, listt **liste)
