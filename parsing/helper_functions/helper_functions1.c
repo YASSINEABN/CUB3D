@@ -2,8 +2,6 @@
 
 void	check_s2(char c, int *check, listt **node)
 {
-	
-	
 	if (c == '\n')
 		(*check)++;
 
@@ -36,7 +34,6 @@ char	**map_to_s(char *s, int count, listt **node)
 		check_s2(s[i], &check, node);
 
 
-	
 	str = ft_split(s, '\n');
 	add_to_listt(str, node);
 	

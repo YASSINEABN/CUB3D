@@ -97,3 +97,5 @@ int	main(int argc , char **argv)
 	return (garbage_collector(&var.list, free), 1);
 	
 }
+
+// to do player on last wall and begin and end of the wall 

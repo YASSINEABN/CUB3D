@@ -14,25 +14,63 @@ void	do_something(player p, char **s, queue **queue, listt **node)
 		add_quee(queue, p.x, p.y - 1, node);
 }
 
+int check_len(char **s)
+{
+	int i;
+	 int j = -1;
+
+	i = 0;
+
+	while (s[++i]);
+	i--;
+		while (s[i])
+	{
+		j=-1;
+		while (s[i][++j])
+		{
+			if(s[i][j] == ' ')
+				continue ;
+			else
+			{
+				j = 99;
+				break;
+			}
+		}
+		if(j == 99)
+			break;
+
+		i--;
+	}
+	// printf("%s",s[i]);
+	// exit(1);
+	return i;
+}
+
+
 int	check_map2(char **s)
 {
 	int	i;
 	int	j;
 	int	check;
-
+	
 	i = -1;
 	j = -1;
 	check = 0;
+
 	
 	while (s[++i])
 	{
-		if (!(s[i + 1]))
-			check = i;
+		j = -1;
 		while (s[i][++j])
+		{
+			if (!(s[i + 1]))
+				check = check_len(s);
 			if (simple_check(i, j, s, check))
 				return (1);
-	
-		j = -1;
+			 if(check > 0)
+			 	return 0;
+
+		}
 	}
 	return (0);
 }

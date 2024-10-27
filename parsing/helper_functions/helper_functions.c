@@ -39,25 +39,23 @@ int	find_direction(player *player, char **mini_map)
 	flag = 0;
 	i = -1;
 	
+	player->x=0;
 	while (mini_map[++i])
 	{
 		j = -1;
 		while (mini_map[i][++j])
 		{
 			if (mini_map[i][j] == 'N' || mini_map[i][j] == 'E'
-				|| mini_map[i][j] == 'S')
-			{
-				(player->x) = i;
-				(player->y) = j;
+				|| mini_map[i][j] == 'S' ||  mini_map[i][j] == 'W')
 				flag++;
-			}
+			else if(mini_map[i][j] != ' ' && mini_map[i][j] != '0' 
+						&& mini_map[i][j] != '1')
+				return 1;
 		}
-		if (flag > 1)
-			return (1);
-
 	
 	}
-	
+		if (flag != 1 )
+			return (1);
 
 	return (0);
 }

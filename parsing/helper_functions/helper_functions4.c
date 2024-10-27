@@ -1,13 +1,36 @@
 #include "../cub3d.h"
 
+int check_j(int *check ,char *s)
+{
+
+	
+		int i = 0;
+		while (s[i] == ' ' )
+			i++;
+		
+		int len = ft_strlen(s) -1 ;
+
+		while (s[len] == ' ' && len --);
+
+		if((s[i] != '1' || s[len] != '1') && (*check = -1))
+			return 1;
+
+	return 0;
+	
+}
+
 int	simple_check(int i, int j, char **s, int check)
 {
-	if (i == 0 || check > 0)
+	
+	if (i == 0 || check > 0 || check_j(&check ,s[i]))
 	{
 		if (check > 0)
 			i = check;
-		if (s[i][j] != '1' && s[i][j] != ' ')
-			return (1);
+		if ((s[i][j] != '1' && s[i][j] != ' ') || check == -1)
+		{
+			
+					return 1;
+		}
 	}
 	else if (s[i][j] == '0')
 	{
@@ -52,26 +75,8 @@ void	add_node_list(char *name, list **listo, int *countt, listt **node)
 
 int	check_map(char **s)
 {
-	// queue	*queue;
-
-	// queue = NULL;
-	// while (s[p.x][p.y])
-	// {
-	// 	if (check_xy(p.x, p.y, s))
-	// 		return (1);
-	// 	do_something(p, s, &queue, node);
-	// 	dequee(&queue);
-	// 	s[p.x][p.y] = 'V';
-	// 	if (queue)
-	// 	{
-	// 		p.x = queue->x;
-	// 		p.y = queue->y;
-	// 	}
-	// 	else
-	// 		break ;
-	// }
-		
-		
+	
+	
 	if (check_map2(s))
 		return (1);
 	
