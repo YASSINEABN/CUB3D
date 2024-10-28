@@ -3,7 +3,6 @@
 int check_j(int *check ,char *s)
 {
 
-	
 		int i = 0;
 		while (s[i] == ' ' )
 			i++;
@@ -12,9 +11,12 @@ int check_j(int *check ,char *s)
 
 		while (s[len] == ' ' && len --);
 
-		if((s[i] != '1' || s[len] != '1') && (*check = -1))
+		
+		if((s[i] != '1' ) || (s[len] != '1') )
+		{
+			*check = -1;
 			return 1;
-
+		}
 	return 0;
 	
 }
@@ -22,15 +24,15 @@ int check_j(int *check ,char *s)
 int	simple_check(int i, int j, char **s, int check)
 {
 	
-	if (i == 0 || check > 0 || check_j(&check ,s[i]))
+	if (i == 0 || i == check || check_j(&check ,s[i]))
 	{
-		if (check > 0)
-			i = check;
-		if ((s[i][j] != '1' && s[i][j] != ' ') || check == -1)
+		if (i == check )
 		{
-			
-					return 1;
+			i = check;
+			check_j(&check ,s[check]);
 		}
+		if ((s[i][j] != '1' && s[i][j] != ' ') || check == -1)
+				return 1;
 	}
 	else if (s[i][j] == '0')
 	{
@@ -75,11 +77,8 @@ void	add_node_list(char *name, list **listo, int *countt, listt **node)
 
 int	check_map(char **s)
 {
-	
-	
 	if (check_map2(s))
 		return (1);
-	
 
 	return (0);
 }

@@ -16,33 +16,24 @@ void	do_something(player p, char **s, queue **queue, listt **node)
 
 int check_len(char **s)
 {
-	int i;
-	 int j = -1;
+	int i = -1;
+	int j = -1;
 
-	i = 0;
-
-	while (s[++i]);
-	i--;
-		while (s[i])
+	int check = 0;
+	while (s[++i])
 	{
-		j=-1;
+		j = -1;
+		check = 0;
 		while (s[i][++j])
 		{
-			if(s[i][j] == ' ')
-				continue ;
-			else
-			{
-				j = 99;
-				break;
-			}
+			if(s[i][j] != ' ')
+				check = 1;
 		}
-		if(j == 99)
+		if(check == 0)
 			break;
-
-		i--;
 	}
-	// printf("%s",s[i]);
-	// exit(1);
+	
+
 	return i;
 }
 
@@ -57,20 +48,22 @@ int	check_map2(char **s)
 	j = -1;
 	check = 0;
 
-	
+	check = check_len(s) - 1;
+
 	while (s[++i])
 	{
 		j = -1;
 		while (s[i][++j])
 		{
-			if (!(s[i + 1]))
-				check = check_len(s);
+			// if (!(s[i + 1]))
+			// 	check = check_len(s);
+	
+	
 			if (simple_check(i, j, s, check))
 				return (1);
-			 if(check > 0)
-			 	return 0;
-
 		}
+		if(i == check)
+		 	return 0;
 	}
 	return (0);
 }
