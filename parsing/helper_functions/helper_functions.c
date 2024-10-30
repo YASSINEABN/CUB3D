@@ -1,5 +1,12 @@
 #include "../cub3d.h"
 
+char	*some(int *i, char *line)
+{
+	if (*i == 0)
+		return (NULL);
+	return (ft_strdup(line));
+}
+
 char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE];
@@ -25,9 +32,7 @@ char	*get_next_line(int fd)
 			break ;
 	}
 	line[i] = '\0';
-	if (i == 0)
-		return (NULL);
-	return (ft_strdup(line));
+	return (some(&i, line));
 }
 
 int	find_direction(player *player, char **mini_map)
@@ -38,70 +43,62 @@ int	find_direction(player *player, char **mini_map)
 
 	flag = 0;
 	i = -1;
-	
-	player->x=0;
+	player->x = 0;
 	while (mini_map[++i])
 	{
 		j = -1;
 		while (mini_map[i][++j])
 		{
 			if (mini_map[i][j] == 'N' || mini_map[i][j] == 'E'
-				|| mini_map[i][j] == 'S' ||  mini_map[i][j] == 'W')
+				|| mini_map[i][j] == 'S' || mini_map[i][j] == 'W')
 				flag++;
-			else if(mini_map[i][j] != ' ' && mini_map[i][j] != '0' 
-						&& mini_map[i][j] != '1')
-				return 1;
+			else if (mini_map[i][j] != ' ' && mini_map[i][j] != '0'
+					&& mini_map[i][j] != '1')
+				return (printf("there is an eror on player"), 1);
 		}
-	
 	}
-		if (flag != 1 )
-			return (1);
-
+	if (flag != 1)
+		return (1);
 	return (0);
+}
+
+void	parse_ss(char **s, int *check, int *countt, int *i)
+{
+	*i = 0;
+	if ((**s != '\n' && **s != ' ') && *check == 0)
+		*check = 1;
+	else if (**s == '\n' && *check == 1)
+	{
+		*check = 0;
+		(*countt)++;
+	}
 }
 
 void	parse_s(char **s, int count)
 {
-
-	int    check;
-	int    countt;
+	int	check;
+	int	countt;
+	int	i;
 
 	check = 0;
 	countt = 0;
-
 	while (**s)
 	{
-		if ((**s != '\n' && **s != ' ') && check == 0)
-			check = 1;
-		else if (**s == '\n' && check == 1)
-		{
-			check = 0;
-			countt++;
-		}
+		parse_ss(s, &check, &countt, &i);
 		if (countt == count)
 			break ;
 		(*s)++;
 	}
-
-	
-
- int i =0;
-
- while (s[0][i])
- {
- 	if(s[0][i] == '\n' || s[0][i] == ' ' )
- 		i++;
- 	else 
- 		break;
- }
-
-if(s[0][i-1] == ' ')
- 	i--;
-
-while (s[0][i] == ' ' && i--);
-
-*s += (i+1);
-
-
-
+	while (s[0][i])
+	{
+		if (s[0][i] == '\n' || s[0][i] == ' ')
+			i++;
+		else
+			break ;
+	}
+	if (s[0][i - 1] == ' ')
+		i--;
+	while (s[0][i] == ' ' && i--)
+		;
+	*s += (i + 1);
 }

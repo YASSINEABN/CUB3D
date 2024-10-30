@@ -14,56 +14,50 @@ void	do_something(player p, char **s, queue **queue, listt **node)
 		add_quee(queue, p.x, p.y - 1, node);
 }
 
-int check_len(char **s)
+int	check_len(char **s)
 {
-	int i = -1;
-	int j = -1;
+	int	i;
+	int	j;
+	int	check;
 
-	int check = 0;
+	i = -1;
+	j = -1;
+	check = 0;
 	while (s[++i])
 	{
 		j = -1;
 		check = 0;
 		while (s[i][++j])
 		{
-			if(s[i][j] != ' ')
+			if (s[i][j] != ' ')
 				check = 1;
 		}
-		if(check == 0)
-			break;
+		if (check == 0)
+			break ;
 	}
-	
-
-	return i;
+	return (i);
 }
-
 
 int	check_map2(char **s)
 {
 	int	i;
 	int	j;
 	int	check;
-	
+
 	i = -1;
 	j = -1;
 	check = 0;
-
 	check = check_len(s) - 1;
-
 	while (s[++i])
 	{
 		j = -1;
 		while (s[i][++j])
 		{
-			// if (!(s[i + 1]))
-			// 	check = check_len(s);
-	
-	
 			if (simple_check(i, j, s, check))
 				return (1);
 		}
-		if(i == check)
-		 	return 0;
+		if (i == check)
+			return (0);
 	}
 	return (0);
 }
@@ -100,7 +94,6 @@ int	check_ss(char *line, listt **node)
 {
 	int	check;
 
-
 	line = ft_strtrim(line, " ");
 	mylist(line, node);
 	check = 0;
@@ -108,7 +101,7 @@ int	check_ss(char *line, listt **node)
 	{
 		if (*line == ' ')
 			check = 1;
-		if ((check == 1 && *line != ' ' ) || !ft_isdigit(*line))
+		if ((check == 1 && *line != ' ') || !ft_isdigit(*line))
 			return (1);
 		line++;
 	}
