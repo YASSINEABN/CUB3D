@@ -79,7 +79,6 @@ void				store_line(char **line, myvar *var, char **s);
 void				fill_listt(list **listo, listt **liste);
 void				add_node_list(char *name, list **listo, int *countt,
 						listt **node);
-int	check_map(char **s);
 void				do_something(player p, char **s, queue **queue,
 						listt **node);
 int					check_xy(int x, int y, char **s);

@@ -32,6 +32,8 @@ int	parse_map(myvar *var)
 	if (check_s(ss, &listt, var) || duplicate(listt) || var->count != 6)
 		return (1);
 	var->s = map_to_s(var->str, var->count, &(var->list));
+
+	
 	return (0);
 }
 
@@ -69,6 +71,11 @@ void	init(myvar *var, int argc, char **argv)
 	}
 }
 
+void execute(myvar var)
+{
+	printf("%d",var.player.x);
+}
+
 int	main(int argc, char **argv)
 {
 	myvar	var;
@@ -79,8 +86,12 @@ int	main(int argc, char **argv)
 	if (parse_map(&var) || find_direction(&var.player, var.s)
 		|| check_map2(var.s))
 	{
-		printf(" ----->error ");
+		printf("error ");
 		return (garbage_collector(&var.list, free), 1);
 	}
+	else 
+		execute(var);
+
 	return (garbage_collector(&var.list, free), 1);
+
 }
