@@ -1,4 +1,5 @@
 #include "cub3d.h"
+# include "minilibx-linux/mlx.h"
 
 
 int	duplicate(list *listt)
@@ -73,7 +74,13 @@ void	init(myvar *var, int argc, char **argv)
 
 void execute(myvar var)
 {
-	printf("%d",var.player.x);
+	int i = -1;
+	
+	while (var.s[++i])
+	{
+		printf("%s \n",var.s[i]);
+	}
+
 }
 
 int	main(int argc, char **argv)

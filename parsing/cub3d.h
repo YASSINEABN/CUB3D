@@ -58,6 +58,7 @@ typedef struct myvar
 	int				fd;
 	char			*str;
 	player			player;
+	char *textures[5];
 
 }					myvar;
 
@@ -83,12 +84,12 @@ void				do_something(player p, char **s, queue **queue,
 						listt **node);
 int					check_xy(int x, int y, char **s);
 int					check_map2(char **s);
-int					check_floor(char *s, list **listo, int *countt,
-						listt **node);
+int	check_floor(char *s, list **listo, myvar *var);
+
 void	check_texture_floor(char *c, char *s,myvar *var ,list **listt);
 int					process_s(char **s, char **ss, listt **node);
 int					count(char **s);
-int	check_texture(char *s, list **list, int *countt, listt **nodee);
+int	check_texture(char *s, list **list, myvar *var );
 int					check_ss(char *line, listt **node);
 void				add_nodee(char *name, list **listo, listt **liste);
 int					check_s(char **s, list **list, myvar *var);
